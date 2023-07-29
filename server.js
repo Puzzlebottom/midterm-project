@@ -45,7 +45,7 @@ app.use('/users', usersRoutes);
 // Separate them into separate routes files (see above).
 
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('index', { apiKey: process.env.API_KEY });
 });
 
 app.listen(PORT, () => {
