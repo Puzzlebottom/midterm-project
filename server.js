@@ -31,12 +31,9 @@ app.use(express.static('public'));
 const userApiRoutes = require('./routes/users-api');
 const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
-<<<<<<< HEAD
-const newgameRoutes = require('./routes/newgame');
-=======
+
 const newGameRoutes = require('./routes/new-game');
 const joinGameRoutes = require('./routes/join-game');
->>>>>>> routes/new-game-join-game
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
