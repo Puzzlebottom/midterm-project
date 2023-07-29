@@ -9,6 +9,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  font-size: 12px;
 }
 
 /*
@@ -16,12 +17,12 @@ body {
  * that contains the map.
  */
 #map {
-  height: 700px;
-  width: 100%;
+  height: 90%;
+  width: 90%;
 }
 
 header {
-  position: fixed;
+  position: absolute;
   width: 100vw;
   top: 0;
   left: 0;
@@ -29,18 +30,25 @@ header {
 
 main {
   display: flex;
+  height: 100vh;
+  width: 100vw;
   justify-content: center;
-  align-content: center;
-  padding: 5em 15em 5em 15em;
+  align-items: center;
 
   .card {
     display: flex;
+    width: 90%;
     text-align: center;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 60vw;
-    height: 80vh;
-    border: thin solid black;
-    padding: 1em;
+    align-content: space-between;
+
+    .card-footer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+
+      button {
+        margin: 0.2em;
+      }
+    }
   }
 }
