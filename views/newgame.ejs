@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
     integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
 
-  <title>Home Page</title>
+  <title>Start Game</title>
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,17 +26,18 @@
 <body>
   <%- include('partials/_header'); %>
     <main>
-      <div class="card">
-        <h1>Hide and Seek App</h1>
-        <form action="/newgame" method="GET">
-          <button type="submit" class="btn btn-primary" id="new-game" value="new-game">START GAME</button>
-          <button type="submit" class="btn btn-primary" id="join-game" value="join-game">JOIN GAME</button>
-          <button type="button" class="btn btn-primary" id="instructions" value="instructions">HOW TO PLAY</button>
-        </form>
+      <div class="">
+        <h1></h1>
       </div>
     </main>
     <div id="map"></div>
-    <button type="button" id="map-button">MAKE MAP</button>
+    <button type="button" id="map-button">START GAME</button>
 </body>
 
 </html>
+
+<script>
+app.get('/', (req, res) => {
+res.render('index', { apiKey: process.env.API_KEY });
+})
+</script>
