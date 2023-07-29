@@ -19,3 +19,28 @@ body {
   height: 700px;
   width: 100%;
 }
+
+header {
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  left: 0;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding: 5em 15em 5em 15em;
+
+  .card {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 60vw;
+    height: 80vh;
+    border: thin solid black;
+    padding: 1em;
+  }
+}
