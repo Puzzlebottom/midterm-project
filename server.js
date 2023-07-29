@@ -43,7 +43,6 @@ app.use('/new-game', newGameRoutes);
 app.use('/join-game', joinGameRoutes);
 app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
-app.use('/newgame', newGameRoutes);
 
 // Note: mount other resources here, using the same pattern above
 
