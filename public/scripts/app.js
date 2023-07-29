@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 
 let map;
-let testVar;
+// let testVar;
 
 const initMap = async () => {
   const { Map } = await google.maps.importLibrary("maps");
@@ -21,24 +21,35 @@ const initMap = async () => {
     });
     testVar = mapsMouseEvent.latLng;
     console.log(mapsMouseEvent.latLng, '<==== MAP MARKER!')
+
+    fetch("/saveMarker", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ lat: mapsMouseEvent.latLng.lat(), lng: mapsMouseEvent.latLng.lng() }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Error:", error));
   });
-  new google.maps.Marker({
+
+
+  const marker = new google.maps.Marker({
     position: { lat: -34.397, lng: 150.644 },
     map,
     title: "Hello World!",
-  });
-
+  }
+  );
   marker.setMap(map);
-
   console.log(map);
   return map;
 };
+initMap();
+// $('#map-button').on('click', () => {
 
-$('#map-button').on('click', () => {
-  initMap();
-  console.log('MAP MEN');
-});
-
+//   console.log('MAP MEN');
+// });
 
 
 
