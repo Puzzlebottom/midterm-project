@@ -20,6 +20,7 @@ const initMap = async () => {
       title: "New marker on click!",
     });
     testVar = mapsMouseEvent.latLng;
+
     console.log(mapsMouseEvent.latLng, '<==== MAP MARKER!')
 
     fetch("/saveMarker", {
@@ -32,6 +33,8 @@ const initMap = async () => {
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.error("Error:", error));
+
+    console.log(mapsMouseEvent.latLng, '<==== MAP MARKER!');
   });
 
 
