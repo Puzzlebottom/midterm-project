@@ -20,7 +20,7 @@ const initMap = async () => {
       title: "New marker on click!",
     });
     testVar = mapsMouseEvent.latLng;
-    console.log(mapsMouseEvent.latLng, '<==== MAP MARKER!')
+    console.log(mapsMouseEvent.latLng, '<==== MAP MARKER!');
   });
   new google.maps.Marker({
     position: { lat: -34.397, lng: 150.644 },

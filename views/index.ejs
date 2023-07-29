@@ -3,8 +3,11 @@
 
 <head>
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
 
   <title>Home Page</title>
 
@@ -18,25 +21,35 @@
   <link rel="stylesheet" href="/styles/layout.css" />
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <!-- <script src="/scripts/event-listeners.js"></script> -->
   <script defer src="/scripts/app.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=initMap"></script>
 
 </head>
 
 <body>
-  <%- include('partials/_header'); %>
+  <%- include('partials/_header') %>
     <main>
       <div class="card">
-        <h1>Hide and Seek App</h1>
-        <form action="/newgame" method="GET">
-          <button type="submit" class="btn btn-primary" id="new-game" value="new-game">START GAME</button>
-          <button type="submit" class="btn btn-primary" id="join-game" value="join-game">JOIN GAME</button>
-          <button type="button" class="btn btn-primary" id="instructions" value="instructions">HOW TO PLAY</button>
-        </form>
+
+        <div class="card-header">
+          <h2>Hide and Seek App</h2>
+        </div>
+        <div class="card-body">something goes here!</div>
+        <div class="card-footer">
+          <form method="GET" action="/new-game">
+            <button type="submit" class="btn btn-primary" value="new-game">START GAME</button>
+          </form>
+          <form method="GET" action="/join-game">
+            <button type="submit" class="btn btn-primary" value="join-game">JOIN GAME</button>
+          </form>
+          <button type="button" class="btn btn-primary" id="help" data-bs-toggle="modal"
+            data-bs-target="#help-modal">HOW TO
+            PLAY</button>
+        </div>
       </div>
     </main>
-    <div id="map"></div>
-    <button type="button" id="map-button">MAKE MAP</button>
+    <%- include('partials/_help-modal') %>
 </body>
 
 </html>
