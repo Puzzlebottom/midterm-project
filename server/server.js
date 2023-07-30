@@ -34,12 +34,18 @@ app.use(express.static('public'));
 // Note: Feel free to replace the example routes below with your own
 const newGameRoutes = require('./routes/new-game');
 const joinGameRoutes = require('./routes/join-game');
+const loginRoutes = require('./routes/login')
+const registerRoutes = require('./routes/register')
+const logoutRoutes = require('./routes/logout')
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
 app.use('/new-game', newGameRoutes);
 app.use('/join-game', joinGameRoutes);
+app.use('/login', loginRoutes);
+app.use('/register', registerRoutes);
+app.use('/logout', logoutRoutes);
 
 
 app.get('/', (req, res) => {

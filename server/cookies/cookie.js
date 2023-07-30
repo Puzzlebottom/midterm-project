@@ -12,7 +12,7 @@ const giveCookie = function (response) {
 
 const getPlayerName = function (cookie) {
   const queryString = `SELECT screen_name FROM players WHERE cookie_uuid = $1`;
-  const values = [cooker.playerId];
+  const values = [cookie.playerId];
   db.query(queryString, values).then(
   function(result) {
     console.log(result);
