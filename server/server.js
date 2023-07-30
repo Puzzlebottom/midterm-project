@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
   if (!hasCookie) {
     giveCookie(res);
   } else {
-    getPlayerName(cookie);
+    getPlayerName(req.cookies);
   }
   res.render('index', { apiKey: process.env.API_KEY });
 });
