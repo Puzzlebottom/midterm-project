@@ -13,7 +13,9 @@
   "author": "Lighthouse Labs",
   "license": "ISC",
   "dependencies": {
+    "argon2": "^0.30.3",
     "chalk": "^2.4.2",
+    "cookie-encrypter": "^1.0.1",
     "cookie-parser": "^1.4.6",
     "dotenv": "^2.0.0",
     "ejs": "^2.6.2",

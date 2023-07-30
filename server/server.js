@@ -3,7 +3,9 @@ require('dotenv').config();
 
 // Web server config
 const sassMiddleware = require('../lib/sass-middleware');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const cookieEncrypter = require('cookie-encrypter');
+const secretKey = 'foobarbaz1234567foobarbaz1234567';
 const express = require('express');
 const morgan = require('morgan');
 
@@ -18,7 +20,8 @@ app.set('view engine', 'ejs');
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan('dev'));
-app.use(cookieParser());
+app.use(cookieParser(secretKey));
+app.use(cookieEncrypter(secretKey));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   '../styles',
@@ -29,6 +32,13 @@ app.use(
   })
 );
 app.use(express.static('public'));
+
+app.get('/setcookies', function(req, res) {
+  const cookieParams = {
+    httpOnly: true,
+    signed: true,
+    maxAge: 300000000,
+  }});
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
