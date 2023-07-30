@@ -2,13 +2,15 @@
 require('dotenv').config();
 
 // Web server config
-const sassMiddleware = require('./lib/sass-middleware');
+const sassMiddleware = require('../lib/sass-middleware');
+const cookieParser = require('cookie-parser')
 const express = require('express');
 const morgan = require('morgan');
 
-const db = require('./db/connection.js');
+const db = require('../db/connection.js');
 const PORT = 8080;
 const app = express();
+const {checkCookie, giveCookie, getPlayerName } = require('./cookies/cookie')
 
 app.set('view engine', 'ejs');
 
@@ -16,9 +18,10 @@ app.set('view engine', 'ejs');
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan('dev'));
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(
-  '/styles',
+  '../styles',
   sassMiddleware({
     source: __dirname + '/styles',
     destination: __dirname + '/public/styles',
@@ -40,6 +43,13 @@ app.use('/join-game', joinGameRoutes);
 
 
 app.get('/', (req, res) => {
+  const hasCookie = checkCookie(req);
+  console.log(hasCookie, '<==== COOKIE TRUE OR FALSE')
+  if (!hasCookie) {
+    giveCookie(res);
+  } else {
+    getPlayerName(req.cookies);
+  }
   res.render('index', { apiKey: process.env.API_KEY });
 });
 
