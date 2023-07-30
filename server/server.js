@@ -48,6 +48,7 @@ app.use('/join-game', joinGameRoutes);
 
 app.get('/', (req, res) => {
   const hasCookie = checkCookie(req);
+  console.log(hasCookie, '<==== COOKIE TRUE OR FALSE')
   res.render('index', { apiKey: process.env.API_KEY });
 });
 
