@@ -1,61 +1,50 @@
 /* eslint-disable space-before-function-paren */
 /* eslint-disable no-undef */
 
-let map;
-// let testVar;
-
 const initMap = async () => {
   const { Map } = await google.maps.importLibrary("maps");
 
-  map = new Map(document.getElementById("map"), {
+  return new Map(document.getElementById("map"), {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 8,
-
   });
-  // Configure the click listener.
-  map.addListener("click", (mapsMouseEvent) => {
-    new google.maps.Marker({
-      position: mapsMouseEvent.latLng,
-      map,
-      title: "New marker on click!",
-    });
-    testVar = mapsMouseEvent.latLng;
-
-    console.log(mapsMouseEvent.latLng, '<==== MAP MARKER!')
-
-    fetch("/saveMarker", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ lat: mapsMouseEvent.latLng.lat(), lng: mapsMouseEvent.latLng.lng() }),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error("Error:", error));
-
-    console.log(mapsMouseEvent.latLng, '<==== MAP MARKER!');
-  });
-
-
-  const marker = new google.maps.Marker({
-    position: { lat: -34.397, lng: 150.644 },
-    map,
-    title: "Hello World!",
-  }
-  );
-  marker.setMap(map);
-  console.log(map);
-  return map;
 };
-initMap();
-// $('#map-button').on('click', () => {
 
-//   console.log('MAP MEN');
-// });
+const addMarkerListener = (map) => {
+  map.addListener('click', (e) => {
+    const position = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+
+    saveMarker(createMarker(position))
+      .then((marker) => placeMarker(marker, map))
+      .catch((err) => console.log(err));
+  });
+};
+
+const createMarker = (position) => {
+  return new google.maps.Marker({
+    position: position,
+    title: "New marker!"
+  });
+};
+
+const saveMarker = (marker) => {
+  const lat = marker.position.lat;
+  const lng = marker.position.lng;
+  const payload = { lat, lng };
+
+  return $.ajax({
+    type: "POST",
+    url: "/saveMarker",
+    data: payload
+  })
+    .then((res) => {
+      return createMarker(res.position);
+    });
+};
+
+placeMarker = (marker, map) => marker.setMap(map);
 
 
-
-
-
-
+initMap()
+  .then(addMarkerListener)
+  .catch((err) => console.log(err));
