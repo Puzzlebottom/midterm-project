@@ -44,8 +44,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/saveMarker', (req, res) => {
-  console.log('SERVER.JS: ', req.body);
   const location = JSON.stringify(req.body);
+  console.log(location);
 
   const queryString = `
   INSERT INTO hiding_spots (location)
@@ -56,7 +56,7 @@ app.post('/saveMarker', (req, res) => {
   const queryValues = [location]; // Save the coordinates as a single string: "(lat, lng)"
 
   return db.query(queryString, queryValues)
-    .then((result) => console.log("RESULT: ", result.rows))
+    .then((result) => res.send(result.rows[0]))
     .catch((error) => {
       console.log("ERROR: ", error.message);
       res.status(500).json({ error: "Error saving marker in the database." });

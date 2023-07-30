@@ -38,7 +38,8 @@ const saveMarker = (marker) => {
     data: payload
   })
     .then((res) => {
-      return createMarker(res.position);
+      const { lat, lng } = res.location;
+      return createMarker({ lat: Number(lat), lng: Number(lng) });
     });
 };
 
