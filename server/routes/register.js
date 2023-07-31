@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../../db/connection');
-const argon2 = require('argon2');
+// const argon2 = require('argon2');
+const bcrypt = require('bcrypt');
 
 router.get('/', (req, res) => {
   res.render('register', { apiKey: process.env.API_KEY });
@@ -9,9 +10,9 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   console.log('FORM DATA ===> ', req.body);
-  const {username, password} = req.body;
+  const { username, password } = req.body;
 
-  argon2.hash(password)
+  bcrypt.hash(password, 10)
     .then((hashedPassword) => {
       const queryString = `
         INSERT INTO users (name, password)
@@ -29,7 +30,7 @@ router.post('/', (req, res) => {
     .catch((error) => {
       return console.log('ERROR! ==>', error)
     });
-  }
+}
 )
 
 
