@@ -21,7 +21,7 @@ router.post('/', (req, res) => {
         console.log('Verified? ==> ', verified);
         res.cookie('user', true, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
         console.log('VERIFIED!');
-        res.redirect('/new-game');
+        res.redirect('/games/new');
       } else {
         console.log('INVALID CREDENTIALS!');
         res.render('login', { error: 'Invalid username or password' });

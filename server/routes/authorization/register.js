@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
     .then((result) => {
       console.log(result.rows);
 
-      return res.redirect('/new-game');
+      return res.redirect('/games/new');
     })
     .catch((error) => {
       return console.log('ERROR! ==>', error);
