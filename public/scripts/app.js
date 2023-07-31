@@ -12,11 +12,14 @@ const initMap = async () => {
 
 const addMarkerListener = (map) => {
   map.addListener('click', (e) => {
-    const position = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+    let confirmation = confirm('Set marker?');
+    if (confirmation) {
+      const position = { lat: e.latLng.lat(), lng: e.latLng.lng() };
 
-    saveMarker(createMarker(position))
-      .then((marker) => placeMarker(marker, map))
-      .catch((err) => console.log(err));
+      saveMarker(createMarker(position))
+        .then((marker) => placeMarker(marker, map))
+        .catch((err) => console.log(err));
+    }
   });
 };
 
