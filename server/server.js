@@ -45,9 +45,10 @@ app.get('/setcookies', function (req, res) {
 // Note: Feel free to replace the example routes below with your own
 const newGameRoutes = require('./routes/new-game');
 const joinGameRoutes = require('./routes/join-game');
-const loginRoutes = require('./routes/authorization/login')
-const registerRoutes = require('./routes/authorization/register')
-const logoutRoutes = require('./routes/authorization/logout')
+const loginRoutes = require('./routes/authorization/login');
+const registerRoutes = require('./routes/authorization/register');
+const logoutRoutes = require('./routes/authorization/logout');
+const mapRoutes = require('./routes/api/maps-api/map');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -57,6 +58,7 @@ app.use('/join-game', joinGameRoutes);
 app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
 app.use('/logout', logoutRoutes);
+app.use('/map', mapRoutes);
 
 
 app.get('/', (req, res) => {
