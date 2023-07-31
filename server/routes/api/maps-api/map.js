@@ -6,8 +6,9 @@ const router = express.Router();
 const db = require('../../../../db/connection');
 
 const queryString = `
-select * from map_test
-where id = 2`;
+select * from maps
+where id = 1`;
+//TODO: change this to a query that gets the map id for the current game
 const query = () => {
   return db.query(queryString);
 };
