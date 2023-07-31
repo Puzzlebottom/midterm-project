@@ -44,7 +44,7 @@ app.get('/setcookies', function(req, res) {
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
 const newGameRoutes = require('./routes/games/new');
-const joinGameRoutes = require('./routes/join-game');
+const joinGameRoutes = require('./routes/games/join');
 const loginRoutes = require('./routes/login');
 const registerRoutes = require('./routes/register');
 const logoutRoutes = require('./routes/logout');
@@ -53,7 +53,7 @@ const logoutRoutes = require('./routes/logout');
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
 app.use('/games/new', newGameRoutes);
-app.use('/join-game', joinGameRoutes);
+app.use('/games/join', joinGameRoutes);
 app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
 app.use('/logout', logoutRoutes);
