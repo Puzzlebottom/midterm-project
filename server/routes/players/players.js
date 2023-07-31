@@ -1,28 +1,29 @@
 const express = require('express');
 const router = express.Router();
 const argon2 = require('argon2');
+const { v4: uuidv4 } = require('uuid');
 const db = require('../../../db/connection');
 
 router.get('/', (req, res) => {
   res.render('player');
 });
 
-router.post('/players', (req, res) => {
-  console.log('New player');
-  const { username } = req.body;
-  const queryString = `INSERT INTO players (screen_name)
-    VALUES ($1)
+router.post('/', (req, res) => {
+  console.log(req.body);
+
+  const { game_id, user_id, screen_name } = req.body;
+  const queryString = `INSERT INTO players (game_id, user_id, screen_name, cookie_uuid)
+    VALUES ($1, $2, $3, $4)
     RETURNING *`;
 
-  db.query(queryString, [username])
+  const cookie_uuid = uuidv4();
+
+  return db.query(queryString, [game_id, user_id, screen_name, cookie_uuid])
     .then((result) => {
       console.log(result.rows);
-      return res.redirect('/');
     }).catch((err) => console.log(err))
 
-})
-
-
+});
 
 module.exports = router;
 
