@@ -49,6 +49,8 @@ const loginRoutes = require('./routes/authorization/login');
 const registerRoutes = require('./routes/authorization/register');
 const logoutRoutes = require('./routes/authorization/logout');
 const mapRoutes = require('./routes/api/maps-api/map');
+const playerRoutes = require('./routes/players/players');
+
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -59,7 +61,7 @@ app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
 app.use('/logout', logoutRoutes);
 app.use('/map', mapRoutes);
-
+app.use('/players', playerRoutes);
 
 app.get('/', (req, res) => {
   const hasCookie = checkPlayerCookie(req);

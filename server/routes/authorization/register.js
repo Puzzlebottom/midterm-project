@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../../../db/connection');
-// const argon2 = require('argon2');
 const bcrypt = require('bcrypt');
 
 router.get('/', (req, res) => {
@@ -20,7 +19,7 @@ router.post('/', (req, res) => {
         RETURNING *`;
       const values = [username, hashedPassword];
 
-      return db.query(queryString, values)
+      return db.query(queryString, values);
     })
     .then((result) => {
       console.log(result.rows);
@@ -28,10 +27,10 @@ router.post('/', (req, res) => {
       return res.redirect('/new-game');
     })
     .catch((error) => {
-      return console.log('ERROR! ==>', error)
+      return console.log('ERROR! ==>', error);
     });
 }
-)
+);
 
 
 module.exports = router;
