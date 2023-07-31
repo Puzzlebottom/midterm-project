@@ -26,18 +26,21 @@
 <body>
   <%- include('partials/_header'); %>
     <main>
-      <div class="">
-        <h1></h1>
-      </div>
+      <form class="form-inline" action="/games/new" method="POST">
+        <div id="map"></div>
+        <div class="form-group mb-2">
+          THIS IS WHERE THE MAP CONTROLS WILL BE. SUBMIT WILL CARRY CENTER & ZOOM & BOUNDS.
+          <button type="submit" class="btn btn-primary">Create New Game</button>
+        </div>
+      </form>
     </main>
-    <div id="map"></div>
     <button type="button" id="map-button">START GAME</button>
 </body>
 
 </html>
 
 <script>
-app.get('/', (req, res) => {
-res.render('index', { apiKey: process.env.API_KEY });
-})
+  app.get('/', (req, res) => {
+    res.render('index', { apiKey: process.env.API_KEY });
+  })
 </script>
