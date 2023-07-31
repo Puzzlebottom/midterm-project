@@ -9,19 +9,19 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   console.log('LOGGED IN!');
-  const {username, password} = req.body;
-  const queryString = `SELECT password FROM users WHERE name = $1;`
+  const { username, password } = req.body;
+  const queryString = `SELECT password FROM users WHERE name = $1;`;
 
   return db.query(queryString, [username])
-  .then((result) => { return argon2.verify(result.rows[0].password, password)})
-  .then((verified) => {
-    if (verified) {
-      res.cookie('login', true, { maxAge: 24 * 60 * 60 * 1000 , httpOnly: true })
-      console.log('VERIFIED!')
-      res.redirect('/new-game');
-    }
-  }).catch((err) => console.log(err))
+    .then((result) => { return argon2.verify(result.rows[0].password, password); })
+    .then((verified) => {
+      if (verified) {
+        res.cookie('login', true, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
+        console.log('VERIFIED!');
+        res.redirect('/new-game');
+      }
+    }).catch((err) => console.log(err));
 
-})
+});
 
 module.exports = router;

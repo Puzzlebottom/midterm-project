@@ -12,7 +12,7 @@ const morgan = require('morgan');
 const db = require('../db/connection.js');
 const PORT = 8080;
 const app = express();
-const {checkCookie, giveCookie, getPlayerName } = require('./cookies/cookie')
+const { checkPlayerCookie, checkUserCookie, givePlayerCookie, giveUserCookie, getPlayerNameByCookie, getUserIdByCookie } = require('./cookies/cookie');
 
 app.set('view engine', 'ejs');
 
@@ -38,20 +38,21 @@ app.get('/setcookies', function(req, res) {
     httpOnly: true,
     signed: true,
     maxAge: 300000000,
-  }});
+  };
+});
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
-const newGameRoutes = require('./routes/new-game');
+const newGameRoutes = require('./routes/games/new');
 const joinGameRoutes = require('./routes/join-game');
-const loginRoutes = require('./routes/login')
-const registerRoutes = require('./routes/register')
-const logoutRoutes = require('./routes/logout')
+const loginRoutes = require('./routes/login');
+const registerRoutes = require('./routes/register');
+const logoutRoutes = require('./routes/logout');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
-app.use('/new-game', newGameRoutes);
+app.use('/games/new', newGameRoutes);
 app.use('/join-game', joinGameRoutes);
 app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
@@ -59,12 +60,12 @@ app.use('/logout', logoutRoutes);
 
 
 app.get('/', (req, res) => {
-  const hasCookie = checkCookie(req);
-  console.log(hasCookie, '<==== COOKIE TRUE OR FALSE')
+  const hasCookie = checkPlayerCookie(req);
+  console.log(hasCookie, '<==== COOKIE TRUE OR FALSE');
   if (!hasCookie) {
-    giveCookie(res);
+    givePlayerCookie(res);
   } else {
-    getPlayerName(req.cookies);
+    getPlayerNameByCookie(req.cookies);
   }
   res.render('index', { apiKey: process.env.API_KEY });
 });
