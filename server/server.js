@@ -12,7 +12,7 @@ const morgan = require('morgan');
 const db = require('../db/connection.js');
 const PORT = 8080;
 const app = express();
-const {checkCookie, giveCookie, getPlayerName } = require('./cookies/cookie')
+const { checkCookie, giveCookie, getPlayerName } = require('./cookies/cookie')
 
 app.set('view engine', 'ejs');
 
@@ -33,20 +33,21 @@ app.use(
 );
 app.use(express.static('public'));
 
-app.get('/setcookies', function(req, res) {
+app.get('/setcookies', function (req, res) {
   const cookieParams = {
     httpOnly: true,
     signed: true,
     maxAge: 300000000,
-  }});
+  }
+});
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
 const newGameRoutes = require('./routes/new-game');
 const joinGameRoutes = require('./routes/join-game');
-const loginRoutes = require('./routes/login')
-const registerRoutes = require('./routes/register')
-const logoutRoutes = require('./routes/logout')
+const loginRoutes = require('./routes/authorization/login')
+const registerRoutes = require('./routes/authorization/register')
+const logoutRoutes = require('./routes/authorization/logout')
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
