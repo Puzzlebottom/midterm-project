@@ -1,8 +1,8 @@
-const express = require('express');
-const router = express.Router();
+// const express = require('express');
+// const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.clearCookie('user');
-  res.redirect('/');
-});
-module.exports = router;
+// router.get('/', (req, res) => {
+//   res.clearCookie('user');
+//   res.redirect('/');
+// });
+// module.exports = router;
