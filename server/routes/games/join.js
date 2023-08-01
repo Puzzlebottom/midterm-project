@@ -1,6 +1,7 @@
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
+const db = require('../../../db/connection');
 const { checkPlayerCookie, getPlayerNameByCookie, givePlayerCookie, checkUserCookie, getUserIdByCookie } = require('../../cookies/cookie');
 
 router.get('/', (req, res) => {

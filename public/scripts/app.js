@@ -48,7 +48,6 @@ const saveMarker = (marker) => {
 
 placeMarker = (marker, map) => marker.setMap(map);
 
-
 initMap()
   .then(addMarkerListener)
   .catch((err) => console.log(err));
