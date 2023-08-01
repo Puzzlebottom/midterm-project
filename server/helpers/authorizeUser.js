@@ -41,7 +41,7 @@ const registerUser = (response, name, password) => {
         .then((result) => {
           const user = result.rows[0];
           console.log(result.rows)
-          assignUserCookie(user.cookie_uuid, response)
+          return assignUserCookie(user.cookie_uuid, response)
         })
         .catch((err) => console.log(err))
       })

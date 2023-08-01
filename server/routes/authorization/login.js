@@ -8,10 +8,10 @@ router.get('/', (req, res) => {
   const hasUserCookie = checkUserCookie(req);
 
   if (hasUserCookie) {
-    res.redirect('/')
+    return res.redirect('/')
   }
 
-  res.render('login', {user: null});
+  return res.render('login', {user: null});
 });
 
 router.post('/', (req, res) => {

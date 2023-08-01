@@ -66,47 +66,51 @@ app.use('/players', playerRoutes);
 app.use('/users', userRoutes);
 
 app.get('/', (req, res) => {
-  const hasUserCookie = checkUserCookie(req)
+  const cookie = req.cookies
 
   const templateVars = {
     apiKey: process.env.API_KEY,
     user: null
   }
 
-  if (hasUserCookie) {
+  if (cookie['user']) {
 
     queryString = `SELECT * FROM users WHERE cookie_uuid = $1`
     queryValues = [req.cookies.user];
 
     db.query(queryString, queryValues)
       .then((user) => {
+
+        if (!user) res.clearCookies('user');
+
         templateVars.user = user;
         return res.render('index', templateVars);
       })
-  }
-
+  } else {
   return res.render('index', templateVars);
+}
+
 });
 
-app.post('/saveMarker', (req, res) => {
-  const location = JSON.stringify(req.body);
-  console.log(location);
+// app.post('/saveMarker', (req, res) => {
+//   const location = JSON.stringify(req.body);
+//   console.log(location);
 
-  const queryString = `
-  INSERT INTO hiding_spots (location)
-  VALUES ($1)
-  RETURNING *;
-  `;
+//   const queryString = `
+//   INSERT INTO hiding_spots (location)
+//   VALUES ($1)
+//   RETURNING *;
+//   `;
 
-  const queryValues = [location]; // Save the coordinates as a single string: "(lat, lng)"
+//   const queryValues = [location]; // Save the coordinates as a single string: "(lat, lng)"
 
-  return db.query(queryString, queryValues)
-    .then((result) => res.send(result.rows[0]))
-    .catch((error) => {
-      console.log("ERROR: ", error.message);
-      res.status(500).json({ error: "Error saving marker in the database." });
-    });
-});
+//   return db.query(queryString, queryValues)
+//     .then((result) => res.send(result.rows[0]))
+//     .catch((error) => {
+//       console.log("ERROR: ", error.message);
+//       res.status(500).json({ error: "Error saving marker in the database." });
+//     });
+// });
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

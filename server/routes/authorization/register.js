@@ -6,13 +6,13 @@ const bcrypt = require('bcrypt');
 const {registerUser} = require('../../helpers/authorizeUser')
 
 router.get('/', (req, res) => {
-  const hasUserCookie = checkUserCookie(req);
+  const cookie = req.cookies
 
-  if (hasUserCookie) {
-    res.redirect('/')
+  if (cookie['user']) {
+    return res.redirect('/')
   }
 
-  res.render('register', {user: null});
+  return res.render('register', {user: null});
 });
 
 
@@ -20,8 +20,8 @@ router.post('/', (req, res) => {
   const { username, password } = req.body;
 
  registerUser(res, username, password)
-    .then((result) => {
-      return res.redirect('/');
+    .then((response) => {
+      return response.redirect('/');
     })
     .catch((error) => {
       return console.log(error);
