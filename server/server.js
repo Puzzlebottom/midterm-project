@@ -66,14 +66,26 @@ app.use('/players', playerRoutes);
 app.use('/users', userRoutes);
 
 app.get('/', (req, res) => {
-  const hasCookie = checkPlayerCookie(req);
-  console.log(hasCookie, '<==== COOKIE TRUE OR FALSE');
-  if (!hasCookie) {
-    givePlayerCookie(res);
-  } else {
-    getPlayerNameByCookie(req.cookies);
+  const hasUserCookie = checkUserCookie(req)
+
+  const templateVars = {
+    apiKey: process.env.API_KEY,
+    user: null
   }
-  res.render('index', { apiKey: process.env.API_KEY });
+
+  if (hasUserCookie) {
+
+    queryString = `SELECT * FROM users WHERE cookie_uuid = $1`
+    queryValues = [req.cookies.user];
+
+    db.query(queryString, queryValues)
+      .then((user) => {
+        templateVars.user = user;
+        return res.render('index', templateVars);
+      })
+  }
+
+  return res.render('index', templateVars);
 });
 
 app.post('/saveMarker', (req, res) => {
