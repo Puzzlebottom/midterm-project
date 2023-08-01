@@ -1,18 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../../../db/connection');
-const { checkUserCookie, getUserIdByCookie } = require('../../cookies/cookie');
-
+const { getUserByCookie } = require('../../helpers/authorizeUser')
 
 router.get('/', (req, res) => {
-  const hasUserCookie = checkUserCookie(req);
-  if (!hasUserCookie) {
+  const userCookie = req.cookies['user'];
+  if (!userCookie) {
     return res.redirect('../login');
   }
-  const userCookie = req.cookies;
-  getUserIdByCookie(userCookie)
-    .then((userId) => {
-      const templateVars = { userId, apiKey: process.env.API_KEY };
+
+  getUserByCookie(userCookie)
+    .then((user) => {
+      const templateVars = { user, apiKey: process.env.API_KEY };
       return res.render('new-game', templateVars);
     })
     .catch((err) => console.log(err));
@@ -20,30 +19,40 @@ router.get('/', (req, res) => {
 
 
 router.post('/', (req, res) => {
-  const hasUserCookie = checkUserCookie(req);
-  console.log(center);
-  if (!hasUserCookie) {
-    return res.redirect('../login');
-  }
+  const { lat, lng, zoom, bounds } = req.body
+  console.log("LAT: ", lat)
+  console.log("TYPE LAT: ", typeof lat)
+  console.log("lng: ", lng)
+  console.log("TYPE lng: ", typeof lng)
+  console.log("ZOOM: ", zoom)
+  console.log("TYPE ZOOM: ", typeof zoom)
+  console.log("bounds: ", bounds)
+  console.log("TYPE bounds: ", typeof bounds)
 
-  const userCookie = req.cookies.user;
+  const userCookie = req.cookies['user'];
 
-  const mapId = 1; //get map id from form data
-  const linkURL = generateRandomString(6);
+  return res.render('/');
 
-  const queryString = `
-    INSERT INTO games (map_id, owner_id, link_url)
-    VALUES ($1, (SELECT id FROM users WHERE cookie_uuid = $2), $3)
-    RETURNING *;
-  `;
-  const queryValues = [mapId, userCookie, linkURL];
+  // if (!userCookie) {
+  //   return res.redirect('../login');
+  // }
 
-  db.query(queryString, queryValues)
-    .then((result) => {
-      const templateVars = result;
-      return res.render('game', templateVars);
-    })
-    .catch((err) => console.log(err));
+  // const mapId = 1; //get map id from form data
+  // const linkURL = generateRandomString(6);
+
+  // const queryString = `
+  //   INSERT INTO games (map_id, owner_id, link_url)
+  //   VALUES ($1, (SELECT id FROM users WHERE cookie_uuid = $2), $3)
+  //   RETURNING *;
+  // `;
+  // const queryValues = [mapId, userCookie, linkURL];
+
+  // db.query(queryString, queryValues)
+  //   .then((result) => {
+  //     const templateVars = result;
+  //     return res.render('game', templateVars);
+  //   })
+  //   .catch((err) => console.log(err));
 });
 
 
