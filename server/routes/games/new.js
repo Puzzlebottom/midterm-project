@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   const userCookie = req.cookies.user;
   getUserIdByCookie(userCookie)
     .then((userId) => {
-      const templateVars = { userId };
+      const templateVars = { userId, apiKey: process.env.API_KEY };
       return res.render('new-game', templateVars);
     })
     .catch((err) => console.log(err));
