@@ -1,14 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const {checkUserCookie} = require('../../cookies/cookie')
 const db = require('../../../db/connection');
 
 router.get('/', (req, res) => {
-  res.render('login');
+  const hasUserCookie = checkUserCookie(req);
+
+  if (hasUserCookie) {
+    res.redirect('/')
+  }
+
+  res.render('login', {user: null});
 });
 
 router.post('/', (req, res) => {
-  console.log('LOGGED IN!');
   const { username, password } = req.body;
   const queryString = `SELECT password FROM users WHERE name = $1;`;
 
@@ -18,13 +24,11 @@ router.post('/', (req, res) => {
     })
     .then((verified) => {
       if (verified) {
-        console.log('Verified? ==> ', verified);
         res.cookie('user', true, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
-        console.log('VERIFIED!');
-        res.redirect('/games/new');
+        res.redirect('/');
       } else {
         console.log('INVALID CREDENTIALS!');
-        res.render('login', { error: 'Invalid username or password' });
+        res.render('login', { error: 'Invalid username or password', user: null });
       }
     }).catch((err) => console.log(err));
 
