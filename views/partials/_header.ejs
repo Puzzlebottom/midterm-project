@@ -16,7 +16,7 @@
       <li class="nav-item">
         <a class="nav-link" href="/users/<%= user.id %>/favourites">Favourites</a>
       </li>
-      <%}%>
+      <% } %>
 
     </ul>
   </div>
@@ -36,7 +36,7 @@
         <% } else { %>
           Logged in as: <%= user.name %>!
           <form action="/logout" method="POST">
-            <button type="submit">Logout</button>
+            <button class="btn btn-primary" type="submit">Logout</button>
           </form>
           <% } %>
         </div>

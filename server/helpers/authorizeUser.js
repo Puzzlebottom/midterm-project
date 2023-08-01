@@ -26,6 +26,10 @@ const assignUserCookie = (uuid, response) => {
   return response.cookie('user', uuid, cookieParams);
 }
 
+const getUserByCookie = (uuid) => {
+  return db.query(`SELECT * FROM users WHERE cookie_uuid = $1 LIMIT 1`, [uuid])
+}
+
 const registerUser = (response, name, password) => {
   const cookieValue = getUserCookie()
 
@@ -49,4 +53,4 @@ const registerUser = (response, name, password) => {
 }
 
 
-module.exports = {registerUser}
+module.exports = {registerUser, getUserByCookie}

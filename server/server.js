@@ -79,11 +79,13 @@ app.get('/', (req, res) => {
     queryValues = [req.cookies.user];
 
     db.query(queryString, queryValues)
-      .then((user) => {
+      .then((results) => {
+        const user = results.rows[0]
 
         if (!user) res.clearCookies('user');
 
         templateVars.user = user;
+        console.log('USER ==>', user)
         return res.render('index', templateVars);
       })
   } else {
