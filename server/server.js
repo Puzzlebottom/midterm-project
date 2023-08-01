@@ -82,7 +82,7 @@ app.get('/', (req, res) => {
       .then((results) => {
         const user = results.rows[0]
 
-        if (!user) res.clearCookies('user');
+        if (!user) res.clearCookie('user');
 
         templateVars.user = user;
         console.log('USER ==>', user)
