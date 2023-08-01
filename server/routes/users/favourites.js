@@ -13,25 +13,27 @@ router.get('/favourites', (req, res) => {
     };
     console.log('RESULTS ==> ', results.rows);
     return res.render('favourites', templateVars);
-  })
-})
+  });
+});
 
 router.get(':user_id/favourites', (req, res) => {
-  //go to a user's favourites page
+
+  //check userCookie, if no => redirect /login;
+
   const queryString = `
-SELECT map_id FROM favourites
-JOIN map ON map_id = maps.id
-JOIN users ON user_id = users.id
-WHERE users.id = $1;
-`;
+    SELECT map_id FROM favourites
+    JOIN maps ON map_id = maps.id
+    JOIN users ON user_id = users.id
+    WHERE users.id = $1;
+    `;
   const queryValues = [req.params.user_id];
   db.query(queryString, queryValues).then((result) => {
     const templateVars = {
       maps: result.rows
     };
     res.render('favourites', templateVars);
-  })
-})
+  });
+});
 
 router.post(':user_id/favourites', (req, res) => {
   const userId = req.params.user_id;
@@ -43,8 +45,8 @@ router.post(':user_id/favourites', (req, res) => {
   const queryValues = [userId, req.body.map_id];
   return db.query(queryString, queryValues).then((result) => {
     res.redirect(':user_id/favourites');
-  })
-})
+  });
+});
 // check db for duplicate maps (on center, zoom & bounds)
 // insert into favourites user_id, map_id (if new, otherwise, id of matched map)
 
