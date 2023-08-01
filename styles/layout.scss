@@ -52,3 +52,29 @@ main {
     }
   }
 }
+
+.map-container {
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  align-items: center;
+  padding-top: 40px;
+}
+
+.map-card {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  margin: 1em 0 1em 0;
+
+  img {
+    width: 50%;
+    margin: 1em;
+  }
+
+  form {
+    width: 50%;
+    align-self: center;
+  }
+
+}
