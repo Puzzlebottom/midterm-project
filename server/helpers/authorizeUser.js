@@ -28,6 +28,10 @@ const assignUserCookie = (uuid, response) => {
 
 const getUserByCookie = (uuid) => {
   return db.query(`SELECT * FROM users WHERE cookie_uuid = $1 LIMIT 1`, [uuid])
+    .then((result) => {
+      return result.rows[0];
+    })
+    .catch((err) => console.log(err));
 }
 
 const registerUser = (response, name, password) => {

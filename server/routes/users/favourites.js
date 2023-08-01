@@ -40,7 +40,9 @@ router.get('/favourites', (req, res) => {
 })
 
 
-router.get(':user_id/favourites', (req, res) => {
+router.get('/:user_id/favourites', (req, res) => {
+  console.log("USERID = ", req.params.user_id)
+
   let userCookie = req.cookies['user'];
   const templateVars = {
     maps: null,
@@ -73,7 +75,7 @@ router.get(':user_id/favourites', (req, res) => {
 });
 
 
-router.post(':user_id/favourites', (req, res) => {
+router.post('/:user_id/favourites', (req, res) => {
   const userId = req.params.user_id;
   // check credentials
   const queryString = `
