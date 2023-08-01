@@ -18,20 +18,19 @@ const initMap = async () => {
 
   map.addListener('center_changed', () => {
     const center = map.getCenter();
-    $('#lat-input').val(center.lat)
-    $('#lng-input').val(center.lng)
+    $('#center').val(JSON.stringify(center))
   })
 
   map.addListener('zoom_changed', () => {
     const zoom = map.getZoom();
-    $('#zoom-input').val(zoom)
+    $('#zoom').val(zoom)
   })
 
   map.addListener('bounds_changed', () => {
     const bounds = map.getBounds()
     console.log('BOUNDS: ', bounds)
-    $('#bounds-input').val(bounds.toString())
-    console.log($('#bounds-input').val())
+    $('#bounds').val(JSON.stringify(bounds))
+    console.log($('#bounds').val())
   })
 
 

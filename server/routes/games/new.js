@@ -19,25 +19,29 @@ router.get('/', (req, res) => {
 
 
 router.post('/', (req, res) => {
-  const { lat, lng, zoom, bounds } = req.body
-  console.log("LAT: ", lat)
-  console.log("TYPE LAT: ", typeof lat)
-  console.log("lng: ", lng)
-  console.log("TYPE lng: ", typeof lng)
-  console.log("ZOOM: ", zoom)
-  console.log("TYPE ZOOM: ", typeof zoom)
-  console.log("bounds: ", bounds)
-  console.log("TYPE bounds: ", typeof bounds)
+  const { center, zoom, bounds } = req.body
+  const boundsParsed = JSON.parse(bounds);
+  const centerParsed = JSON.parse(center);
+  const zoomNumber = Number(zoom);
 
   const userCookie = req.cookies['user'];
 
-  return res.render('/');
+  if (!userCookie) {
+    return res.redirect('../login');
+  }
 
-  // if (!userCookie) {
-  //   return res.redirect('../login');
-  // }
+  const queryString = `
+  INSERT INTO maps (center, bounds, zoom) VALUES ($1, $2, $3) RETURNING *;`;
+  const queryValues = [centerParsed, boundsParsed, zoomNumber];
+  db.query(queryString, queryValues).then(
+    function (result) {
+      console.log('SUPER RESULTS OF DESTINY! ==> ', result.rows);
+    }
+  ).catch((err) => {
+    console.log('ERROR', err)
+  })
 
-  // const mapId = 1; //get map id from form data
+
   // const linkURL = generateRandomString(6);
 
   // const queryString = `
