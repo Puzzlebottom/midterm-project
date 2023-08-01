@@ -16,65 +16,24 @@ body {
  * Always set the map height explicitly to define the size of the div element
  * that contains the map.
  */
-#map {
-  height: 90%;
-  width: 90%;
-}
 
-header {
-  position: absolute;
-  width: 100vw;
-  top: 0;
-  left: 0;
-}
-
-main {
-  display: flex;
-  height: 100vh;
-  width: 100vw;
-  justify-content: center;
-  align-items: center;
-
-  .card {
-    display: flex;
-    width: 90%;
-    text-align: center;
-    align-content: space-between;
-
-    .card-footer {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-
-      button {
-        margin: 0.2em;
-      }
-    }
-  }
-}
 
 .map-container {
-  display: flex;
-  flex-direction: column;
-  align-self: start;
-  align-items: center;
   padding-top: 40px;
-}
 
-.map-card {
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  margin: 1em 0 1em 0;
+  .map-card {
+    flex-direction: row;
+    margin: 1em 0 1em 0;
 
-  img {
-    width: 50%;
-    margin: 1em;
+    img {
+      width: 50%;
+      margin: 1em;
+    }
+
+    form {
+      width: 50%;
+      align-self: center;
+    }
+
   }
-
-  form {
-    width: 50%;
-    align-self: center;
-  }
-
 }

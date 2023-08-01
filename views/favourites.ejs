@@ -27,15 +27,16 @@
 </head>
 
 <body>
-  <main>
-    <div class="container map-container">
-      <% for (const map of maps) { %>
+  <%- include('partials/_header') %>
+    <main>
+      <div class="container map-container">
+        <% for (const map of maps) { %>
 
-        <%- include('partials/_map-card', {map}) %>
+          <%- include('partials/_map-card', {map}) %>
 
-          <% } %>
-    </div>
-  </main>
+            <% } %>
+      </div>
+    </main>
 </body>
 
 </html>

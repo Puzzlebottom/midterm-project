@@ -31,21 +31,28 @@
     <main>
       <div class="card">
 
-        <div class="card-header">
+        <div class="card-header text-center">
           <h2>Hide and Seek App</h2>
         </div>
         <div class="card-body">something goes here!</div>
-        <div class="card-footer">
-          <form method="GET" action="/games/new">
-            <button type="submit" class="btn btn-primary" value="new-game">START GAME</button>
-          </form>
-          <form method="GET" action="/games/join">
-            <button type="submit" class="btn btn-primary" value="join-game">JOIN GAME</button>
-          </form>
-          <button type="button" class="btn btn-primary" id="help" data-bs-toggle="modal"
-            data-bs-target="#help-modal">HOW TO
-            PLAY</button>
+        <div class="card-footer row">
+          <div class="col">
+            <form method="GET" action="/games/new">
+              <button type="submit" class="btn btn-primary" value="new-game">START GAME</button>
+            </form>
+          </div>
+          <div class="col">
+            <form method="GET" action="/games/join">
+              <button type="submit" class="btn btn-primary" value="join-game">JOIN GAME</button>
+            </form>
+          </div>
+          <div class="col">
+            <button type="button" class="btn btn-primary" id="help" data-bs-toggle="modal"
+              data-bs-target="#help-modal">HOW TO
+              PLAY</button>
+          </div>
         </div>
+      </div>
       </div>
     </main>
     <%- include('partials/_help-modal') %>
