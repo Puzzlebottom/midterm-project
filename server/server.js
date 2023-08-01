@@ -33,7 +33,7 @@ app.use(
 );
 app.use(express.static('public'));
 
-app.get('/setcookies', function(req, res) {
+app.get('/setcookies', function (req, res) {
   const cookieParams = {
     httpOnly: true,
     signed: true,
@@ -50,6 +50,7 @@ const registerRoutes = require('./routes/authorization/register');
 const logoutRoutes = require('./routes/authorization/logout');
 const mapRoutes = require('./routes/api/maps-api/map');
 const playerRoutes = require('./routes/players/players');
+const userRoutes = require('./routes/users/favourites');
 
 
 // Mount all resource routes
@@ -62,6 +63,7 @@ app.use('/register', registerRoutes);
 app.use('/logout', logoutRoutes);
 app.use('/map', mapRoutes);
 app.use('/players', playerRoutes);
+app.use('/users', userRoutes);
 
 app.get('/', (req, res) => {
   const hasCookie = checkPlayerCookie(req);
