@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS guesses CASCADE;
+
 DROP TABLE IF EXISTS players CASCADE;
 
 CREATE TABLE players(
@@ -6,7 +7,7 @@ CREATE TABLE players(
   game_id INTEGER REFERENCES games(id) ON DELETE CASCADE,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   screen_name VARCHAR(255) NOT NULL,
-  cookie_uuid UUID NOT NULL,
+  cookie_uuid VARCHAR(255) NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 

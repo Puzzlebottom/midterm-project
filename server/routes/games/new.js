@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const db = require('../../../db/connection');
 const { checkUserCookie, getUserIdByCookie } = require('../../cookies/cookie');
 
 
@@ -8,7 +9,7 @@ router.get('/', (req, res) => {
   if (!hasUserCookie) {
     return res.redirect('../login');
   }
-  const userCookie = req.cookies.user;
+  const userCookie = req.cookies;
   getUserIdByCookie(userCookie)
     .then((userId) => {
       const templateVars = { userId, apiKey: process.env.API_KEY };
@@ -20,6 +21,7 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   const hasUserCookie = checkUserCookie(req);
+  console.log(center);
   if (!hasUserCookie) {
     return res.redirect('../login');
   }

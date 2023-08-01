@@ -1,11 +1,12 @@
 DROP TABLE IF EXISTS games CASCADE;
+
 DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE users(
   id SERIAL PRIMARY KEY NOT NULL,
   name VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
-  cookie_uuid UUID
+  cookie_uuid VARCHAR(255)
 );
 
 CREATE TABLE games(
@@ -16,4 +17,3 @@ CREATE TABLE games(
   started_at TIMESTAMP DEFAULT NULL,
   ended_at TIMESTAMP DEFAULT NULL
 );
-

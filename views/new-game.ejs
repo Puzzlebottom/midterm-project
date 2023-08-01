@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="/styles/layout.css" />
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-  <script defer src="/scripts/app.js"></script>
+  <script defer src="/scripts/create-map.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=initMap"></script>
 
 </head>
@@ -26,21 +26,20 @@
 <body>
   <%- include('partials/_header'); %>
     <main>
+      <div id="map"></div>
       <form class="form-inline" action="/games/new" method="POST">
-        <div id="map"></div>
         <div class="form-group mb-2">
           THIS IS WHERE THE MAP CONTROLS WILL BE. SUBMIT WILL CARRY CENTER & ZOOM & BOUNDS.
-          <button type="submit" class="btn btn-primary">Create New Game</button>
+          <button type="submit" class="btn btn-primary" id="create-map">Create New Game</button>
         </div>
       </form>
     </main>
-    <button type="button" id="map-button">START GAME</button>
 </body>
 
 </html>
 
-<script>
+<!-- <script>
   app.get('/', (req, res) => {
     res.render('index', { apiKey: process.env.API_KEY });
   })
-</script>
+</script> -->
