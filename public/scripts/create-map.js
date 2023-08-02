@@ -30,7 +30,8 @@ const initMap = async () => {
 
   map.addListener('bounds_changed', () => {
     const bounds = map.getBounds();
-    $('#bounds').val(JSON.stringify(bounds));
+    const restriction = {latLngBounds: bounds, strictBounds: true}
+    $('#bounds').val(JSON.stringify(restriction));
   });
 
   return map;
