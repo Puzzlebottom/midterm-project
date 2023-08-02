@@ -26,7 +26,6 @@ const getUserIdByCookie = (cookie) => {
   const values = [cookie.user];
   return db.query(queryString, values)
     .then((result) => {
-      console.log("getUserIdByCookie: ", result.rows);
       return result.rows[0];
     });
 };
@@ -36,7 +35,6 @@ const getPlayerNameByCookie = (cookie) => {
   const values = [cookie.player];
   return db.query(queryString, values)
     .then((result) => {
-      console.log("getPlayerNameByCookie: ", result.rows);
       return result.rows[0];
     });
 };

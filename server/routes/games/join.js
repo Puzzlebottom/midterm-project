@@ -21,11 +21,7 @@ router.get('/', (req, res) => {
       `
   //    { "lat": 40.66834046220102, "lng": 104.30954172268272 }, "zoom": 4,
       db.query(queryString)
-        .then((results) => {
-          console.log(results.rows)
-
-          const templateVars = {
-            user,
+        .then((results) => {            user,
             apiKey: process.env.API_KEY,
             games: results.rows
           }

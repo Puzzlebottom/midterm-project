@@ -1,7 +1,7 @@
 <div class="map-card card">
   <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= JSON.stringify(game.center.lat) %>,<%= JSON.stringify(game.center.lng) %>&zoom=<%= JSON.stringify(game.zoom) %>&size=400x400&key=<%= apiKey %>" alt="a map">
   <div>
-    <form class="form text-center" method="POST" action="/games/<%= game.id %>/join">
+    <form class="form text-center" method="GET" action="/games/<%= game.id %>">
       <h2>OWNER: <%= game.owner_name %></h2>
       <input type="hidden" name="map_id" value="<%= game.id %>">
       <button class="btn btn-primary" type="submit">JOIN</button>

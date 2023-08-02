@@ -8,7 +8,6 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  console.log(req.body);
 
   const { game_id, user_id, screen_name } = req.body;
   const queryString = `INSERT INTO players (game_id, user_id, screen_name, cookie_uuid)
@@ -19,13 +18,8 @@ router.post('/', (req, res) => {
 
   return db.query(queryString, [game_id, user_id, screen_name, cookie_uuid])
     .then((result) => {
-      console.log(result.rows);
     }).catch((err) => console.log(err))
 
 });
 
 module.exports = router;
-
-// POST /players —> add player to db
-// POST /players/:player_id/hiding_spot —>  validate player cookie, then create new hiding spot for player
-// POST /players/:player_id/guess —> validate player cookie, then create new guess for player

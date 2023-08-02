@@ -14,7 +14,6 @@ const query = () => {
 };
 
 query().then((result) => {
-  console.log(result.rows[0]);
   router.get('/', (req, res) => {
     const templateVars = {
       apiKey: process.env.API_KEY,

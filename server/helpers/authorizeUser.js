@@ -48,7 +48,6 @@ const registerUser = (response, name, password) => {
       return db.query(queryString, values)
         .then((result) => {
           const user = result.rows[0];
-          console.log(result.rows)
           return assignUserCookie(user.cookie_uuid, response)
         })
         .catch((err) => console.log(err))

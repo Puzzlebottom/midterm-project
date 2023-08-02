@@ -58,15 +58,15 @@ const userRoutes = require('./routes/users');
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
-app.use('/games/new', newGameRoutes);
-app.use('/games/join', joinGameRoutes);
+// app.use('/games/new', newGameRoutes);
+// app.use('/games/join', joinGameRoutes);
 app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
 app.use('/logout', logoutRoutes);
 app.use('/map', mapRoutes);
 app.use('/players', playerRoutes);
 
-app.user('/games', gameRoutes);
+app.use('/games', gameRoutes);
 app.use('/users', userRoutes);
 
 app.get('/', (req, res) => {
@@ -89,7 +89,6 @@ app.get('/', (req, res) => {
         if (!user) res.clearCookie('user');
 
         templateVars.user = user;
-        console.log('USER ==>', user)
         return res.render('index', templateVars);
       })
   } else {
@@ -99,7 +98,6 @@ app.get('/', (req, res) => {
 
 app.post('/saveMarker', (req, res) => {
   const location = JSON.stringify(req.body);
-  console.log(location);
 
   const queryString = `
   INSERT INTO hiding_spots (location)
@@ -112,7 +110,6 @@ app.post('/saveMarker', (req, res) => {
   return db.query(queryString, queryValues)
     .then((result) => res.send(result.rows[0]))
     .catch((error) => {
-      console.log("ERROR: ", error.message);
       res.status(500).json({ error: "Error saving marker in the database." });
     });
 });
