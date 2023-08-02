@@ -29,9 +29,9 @@
       <div id="map"></div>
       <form class="form-inline" action="/games/new" method="POST">
 
-        <input type="hidden" id="center" name="center" value="<%= defaultMapData.center %>">
-        <input type="hidden" id="zoom" name="zoom" value="<%= defaultMapData.zoom %>">
-        <input type="hidden" id="bounds" name="bounds" value="<%= defaultMapData.bounds %>">
+        <input type="hidden" id="center" name="center" value="<%= JSON.stringify(defaultMapData.center) %>">
+        <input type="hidden" id="zoom" name="zoom" value="<%= JSON.stringify(defaultMapData.zoom) %>">
+        <input type="hidden" id="bounds" name="bounds" value="<%= JSON.stringify(defaultMapData.bounds) %>">
 
         <div class="form-group mb-2">
           THIS IS WHERE THE MAP CONTROLS WILL BE. SUBMIT WILL CARRY CENTER & ZOOM & BOUNDS.

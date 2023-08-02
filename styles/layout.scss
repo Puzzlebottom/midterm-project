@@ -16,7 +16,10 @@ body {
  * Always set the map height explicitly to define the size of the div element
  * that contains the map.
  */
-
+#map {
+  height: 65vh;
+  width: 65vh;
+}
 
 .map-container {
   padding-top: 40px;

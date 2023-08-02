@@ -2,38 +2,28 @@
 const initMap = async () => {
   const { Map } = await google.maps.importLibrary("maps");
 
-  const lat = 28.87396386289182;
-  const lng = 19.44429251830782;
-  const zoom = 2;
+  const center = { lat: 48.765812262773615, lng: 11.358355018307819 };
+  const zoom = 1;
+  const restriction = { latLngBounds: { north: 85, south: -85, east: -168, west: -167.999999 }, strictBounds: true };
 
-  console.log("LAT : ", lat)
-  console.log("LNG: ", lng)
-  console.log("ZOOM", zoom)
+  const mapOptions = { center, zoom, restriction };
 
-
-
-  const mapData = { center: { lat, lng }, zoom: zoom };
-
-  const map = await new Map(document.getElementById("map"), mapData);
+  const map = await new Map(document.getElementById("map"), mapOptions);
 
   map.addListener('center_changed', () => {
     const center = map.getCenter();
-    $('#center').val(JSON.stringify(center))
-  })
+    $('#center').val(JSON.stringify(center));
+  });
 
   map.addListener('zoom_changed', () => {
     const zoom = map.getZoom();
-    $('#zoom').val(zoom)
-  })
+    $('#zoom').val(zoom);
+  });
 
   map.addListener('bounds_changed', () => {
-    const bounds = map.getBounds()
-    console.log('BOUNDS: ', bounds)
-    $('#bounds').val(JSON.stringify(bounds))
-    console.log($('#bounds').val())
-  })
-
-
+    const bounds = map.getBounds();
+    $('#bounds').val(JSON.stringify(bounds));
+  });
 
   return map;
 };
