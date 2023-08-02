@@ -3,9 +3,36 @@ const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
 const db = require('../../../db/connection');
 const { checkPlayerCookie, getPlayerNameByCookie, givePlayerCookie, checkUserCookie, getUserIdByCookie } = require('../../cookies/cookie');
+const { getUserByCookie } = require('../../helpers/authorizeUser');
 
 router.get('/', (req, res) => {
-  return res.render('join-game');
+  // get all games in db with started_at = NULL
+  // get static image of each map
+  // template vars: game data: owner name, player's names, map image
+  getUserByCookie(req.cookies['user'])
+    .then((user) => {
+      const queryString = `
+      SELECT users.name AS owner_name, games.*, maps.*
+      FROM games
+      JOIN users ON (users.id = games.owner_id)
+      JOIN maps ON (maps.id = games.map_id)
+      GROUP BY games.id, users.name, maps.id
+      ORDER BY games.id;
+      `
+  //    { "lat": 40.66834046220102, "lng": 104.30954172268272 }, "zoom": 4,
+      db.query(queryString)
+        .then((results) => {
+          console.log(results.rows)
+
+          const templateVars = {
+            user,
+            apiKey: process.env.API_KEY,
+            games: results.rows
+          }
+          return res.render('join-game', templateVars);
+        })
+        .catch((err) => console.log(err))
+    })
 });
 
 router.post('/', (req, res) => {
