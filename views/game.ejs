@@ -2,15 +2,33 @@
 <html lang="en">
 
 <head>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+
+  <title>Start Game</title>
+
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" />
+  <link rel="stylesheet" href="/styles/main.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script defer src="/scripts/create-map.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=initMap"></script>
+
 </head>
 
 <body>
-  <p>
-    Hopefully game data is here: <%= game %>
-  </p>
+  <%- include('partials/_header', user); %>
+    <main>
+      <div id="map-options" data-map-options="<%= JSON.stringify(map) %>"></div>
+      <div id="map"><div>
+    </main>
 </body>
 
 </html>

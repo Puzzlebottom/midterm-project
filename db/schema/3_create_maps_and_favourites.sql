@@ -6,7 +6,7 @@ CREATE TABLE maps(
   id SERIAL PRIMARY KEY NOT NULL,
   center JSON NOT NULL,
   zoom SMALLINT NOT NULL,
-  bounds JSON NOT NULL
+  restriction JSON NOT NULL
 );
 
 CREATE TABLE favourites(

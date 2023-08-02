@@ -9,17 +9,17 @@ router.get('/', (req, res) => {
     return res.redirect('../login');
   }
 
-  const defaultMapData = {
+  const mapOptions = {
     center: { lat: 48.765812262773615, lng: 11.358355018307819 },
-    zoom: 1,
-    bounds: { latLngBounds: { north: 85, south: -85, east: -168, west: -167.999999 }, strictBounds: true },
+    zoom: 2,
+    restriction: { latLngBounds: { north: 85, south: -85, east: -168, west: -167.999999 }, strictBounds: true },
   };
 
   getUserByCookie(userCookie)
     .then((user) => {
       const templateVars = {
         user,
-        defaultMapData,
+        map: mapOptions,
         apiKey: process.env.API_KEY
       };
 
@@ -30,10 +30,10 @@ router.get('/', (req, res) => {
 
 
 router.post('/', (req, res) => {
-  const { center, zoom, bounds } = req.body;
+  const { center, zoom, restriction } = req.body;
   console.log(req.body);
 
-  const boundsParsed = JSON.parse(bounds);
+  const restrictionParsed = JSON.parse(restriction);
   const centerParsed = JSON.parse(center);
   const zoomNumber = Number(zoom);
 
@@ -43,16 +43,16 @@ router.post('/', (req, res) => {
     return res.redirect('../login');
   }
 
-  let mapId;
+  let map;
 
 
   const queryString1 = `
-  INSERT INTO maps (center, bounds, zoom) VALUES ($1, $2, $3) RETURNING *;`;
-  const queryValues1 = [centerParsed, boundsParsed, zoomNumber];
+  INSERT INTO maps (center, restriction, zoom) VALUES ($1, $2, $3) RETURNING *;`;
+  const queryValues1 = [centerParsed, restrictionParsed, zoomNumber];
   db.query(queryString1, queryValues1)
     .then(
       function(savedMap) {
-        mapId = savedMap.rows[0].id;
+        map = savedMap.rows[0];
         const user = getUserByCookie(req.cookies.user);
         console.log(user);
         return user;
@@ -67,12 +67,16 @@ router.post('/', (req, res) => {
         VALUES ($1, $2, $3)
         RETURNING *;
       `;
-      const queryValues2 = [mapId, userId, linkURL];
+      const queryValues2 = [map.id, userId, linkURL];
 
       db.query(queryString2, queryValues2)
         .then((result) => {
-          console.log('SAVED MAP ==> ', result.rows);
-          const templateVars = result.rows[0];
+          console.log('SAVED GAME ==> ', result.rows);
+          const templateVars = {
+            user,
+            map,
+            apiKey: process.env.API_KEY
+          };
           return res.render('game', templateVars);
         });
 

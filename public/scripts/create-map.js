@@ -2,11 +2,19 @@
 const initMap = async () => {
   const { Map } = await google.maps.importLibrary("maps");
 
-  const center = { lat: 48.765812262773615, lng: 11.358355018307819 };
-  const zoom = 1;
-  const restriction = { latLngBounds: { north: 85, south: -85, east: -168, west: -167.999999 }, strictBounds: true };
+  const mapObject = JSON.parse($('#map-options').attr('data-map-options'));
+  const mapOptions = {center: mapObject.center, zoom: mapObject.zoom, restriction: mapObject.restriction}
 
-  const mapOptions = { center, zoom, restriction };
+
+  console.log("MAP OPTIONS:", mapOptions);
+
+
+
+  // const center = { lat: 48.765812262773615, lng: 11.358355018307819 };
+  // const zoom = 1;
+  // const restriction = { latLngBounds: { north: 85, south: -85, east: -168, west: -167.999999 }, strictBounds: true };
+
+  // const mapOptions = { center, zoom, restriction };
 
   const map = await new Map(document.getElementById("map"), mapOptions);
 
