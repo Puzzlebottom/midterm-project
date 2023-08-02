@@ -29,9 +29,9 @@
       <div id="map"></div>
       <form class="form-inline" action="/games/new" method="POST">
 
-        <input type="hidden" id="center" name="center" value="null">
-        <input type="hidden" id="zoom" name="zoom" value="null">
-        <input type="hidden" id="bounds" name="bounds" value="null">
+        <input type="hidden" id="center" name="center" value="<%= defaultMapData.center %>">
+        <input type="hidden" id="zoom" name="zoom" value="<%= defaultMapData.zoom %>">
+        <input type="hidden" id="bounds" name="bounds" value="<%= defaultMapData.bounds %>">
 
         <div class="form-group mb-2">
           THIS IS WHERE THE MAP CONTROLS WILL BE. SUBMIT WILL CARRY CENTER & ZOOM & BOUNDS.

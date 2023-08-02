@@ -2,9 +2,9 @@
 const initMap = async () => {
   const { Map } = await google.maps.importLibrary("maps");
 
-  const lat = -34.397;
-  const lng = 150.644;
-  const zoom = 8;
+  const lat = 28.87396386289182;
+  const lng = 19.44429251830782;
+  const zoom = 2;
 
   console.log("LAT : ", lat)
   console.log("LNG: ", lng)

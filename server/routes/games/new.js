@@ -9,9 +9,20 @@ router.get('/', (req, res) => {
     return res.redirect('../login');
   }
 
+  const defaultMapData = {
+    center: (28.87396386289182, 19.44429251830782),
+    zoom: 2,
+    bounds: { "south": -56.97466015352882, "west": -180, "north": 78.19542984354246, "east": 180 }
+  };
+
   getUserByCookie(userCookie)
     .then((user) => {
-      const templateVars = { user, apiKey: process.env.API_KEY };
+      const templateVars = {
+        user,
+        defaultMapData,
+        apiKey: process.env.API_KEY
+      };
+
       return res.render('new-game', templateVars);
     })
     .catch((err) => console.log(err));
@@ -30,33 +41,45 @@ router.post('/', (req, res) => {
     return res.redirect('../login');
   }
 
-  const queryString = `
+  let mapId;
+
+
+  const queryString1 = `
   INSERT INTO maps (center, bounds, zoom) VALUES ($1, $2, $3) RETURNING *;`;
-  const queryValues = [centerParsed, boundsParsed, zoomNumber];
-  db.query(queryString, queryValues).then(
-    function (result) {
-      console.log('SUPER RESULTS OF DESTINY! ==> ', result.rows);
-    }
-  ).catch((err) => {
-    console.log('ERROR', err)
-  })
+  const queryValues1 = [centerParsed, boundsParsed, zoomNumber];
+  db.query(queryString1, queryValues1)
+    .then(
+      function (savedMap) {
+        mapId = savedMap.rows[0].id;
+        const user = getUserByCookie(req.cookies.user)
+        console.log(user);
+        return user
+      })
+    .then((user) => {
+      console.log(user);
+      const userId = user.id
+      const linkURL = generateRandomString(6);
 
+      const queryString2 = `
+        INSERT INTO games (map_id, owner_id, link_url)
+        VALUES ($1, $2, $3)
+        RETURNING *;
+      `;
+      const queryValues2 = [mapId, userId, linkURL];
 
-  // const linkURL = generateRandomString(6);
+      db.query(queryString2, queryValues2)
+        .then((result) => {
+          console.log('SAVED MAP ==> ', result.rows)
+          const templateVars = result.rows[0];
+          return res.render('game', templateVars);
+        })
 
-  // const queryString = `
-  //   INSERT INTO games (map_id, owner_id, link_url)
-  //   VALUES ($1, (SELECT id FROM users WHERE cookie_uuid = $2), $3)
-  //   RETURNING *;
-  // `;
-  // const queryValues = [mapId, userCookie, linkURL];
+    })
 
-  // db.query(queryString, queryValues)
-  //   .then((result) => {
-  //     const templateVars = result;
-  //     return res.render('game', templateVars);
-  //   })
-  //   .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log('ERROR', err)
+    })
+
 });
 
 
