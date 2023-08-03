@@ -22,6 +22,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="/scripts/players.js"></script>
+  <script src="/scripts/hiding-spots.js"></script>
   <script defer src="/scripts/create-map.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=initMap"></script>
 
@@ -48,6 +49,7 @@
           <%= JSON.stringify(game)%>
         </div>
     </main>
+    <div id="player-info" data-player-info="<%= JSON.stringify(player) %>"></div>
     <% if (!player) { %>
       <%- include('partials/_player-modal', {user, game}) %>
         <% } %>

@@ -1,11 +1,12 @@
 const db = require('../connection');
 
-const addHidingSpot = (location) => {
+const addHidingSpot = (hidingSpotData) => {
   const queryString = `
-  INSERT INTO hiding_spots (location)
-  VALUES ($1)
+  INSERT INTO hiding_spots (location, player_id, game_id, picture, clue)
+  VALUES ($1, $2, $3, $4, $5)
   RETURNING *;`;
-  const values = [location];
+  const { location, playerId, gameId, picture, clue } = hidingSpotData;
+  const values = [location, playerId, gameId, picture, clue];
   return db.query(queryString, values)
     .then((res) => {
       if (res.rows.length === 0) {
@@ -14,7 +15,7 @@ const addHidingSpot = (location) => {
       console.log(res.rows[0]);
       return res.rows[0]
     })
-}
+};
 
 const getHidingSpotById = (hidingSpotId) => {
   const queryString = `

@@ -32,7 +32,7 @@ app.use(
 );
 app.use(express.static('public'));
 
-app.get('/setcookies', function(req, res) {
+app.get('/setcookies', function (req, res) {
   const cookieParams = {
     httpOnly: true,
     signed: true,
@@ -47,7 +47,7 @@ const registerRoutes = require('./routes/authorization/register');
 const logoutRoutes = require('./routes/authorization/logout');
 const playerRoutes = require('./routes/players-api');
 
-
+const hidingSpotRoutes = require('./routes/hiding-spots-api');
 const gameRoutes = require('./routes/games');
 const userRoutes = require('./routes/users');
 const { getUserByUUID } = require('../db/queries/users');
@@ -62,7 +62,7 @@ app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
 app.use('/logout', logoutRoutes);
 app.use('/players', playerRoutes);
-
+app.use('/hiding_spots', hidingSpotRoutes);
 app.use('/games', gameRoutes);
 app.use('/users', userRoutes);
 
