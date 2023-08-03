@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const {checkUserCookie} = require('../../cookies/cookie')
+const { checkUserCookie } = require('../../cookies/cookie');
 const db = require('../../../db/connection');
 
 router.get('/', (req, res) => {
   const hasUserCookie = checkUserCookie(req);
 
   if (hasUserCookie) {
-    return res.redirect('/')
+    return res.redirect('/');
   }
 
-  return res.render('login', {user: null});
+  return res.render('login', { user: null });
 });
 
 router.post('/', (req, res) => {

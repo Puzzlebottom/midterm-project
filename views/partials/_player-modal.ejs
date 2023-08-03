@@ -5,7 +5,9 @@
         <h1>MODAL!</h1>
         <form method="POST" action="/players">
           <label class="form-group" for="screen-name">Please choose a name for your player!</label>
-          <input class="form-input" type="text" id="screen-name" name="screen-name" value="" placeholder="Screen Name">
+          <input class="form-input" type="text" id="screen-name" name="screen_name" placeholder="Screen Name">
+          <input type="hidden" name="game_id" value="<%= game.id %>">
+          <input type="hidden" name="user_id" value="<%= user.id %>">
           <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">I'm Ready to Play!</button>
         </form>
       </div>

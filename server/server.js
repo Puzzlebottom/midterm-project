@@ -33,7 +33,7 @@ app.use(
 );
 app.use(express.static('public'));
 
-app.get('/setcookies', function (req, res) {
+app.get('/setcookies', function(req, res) {
   const cookieParams = {
     httpOnly: true,
     signed: true,
@@ -67,27 +67,27 @@ app.use('/games', gameRoutes);
 app.use('/users', userRoutes);
 
 app.get('/', (req, res) => {
-  const cookie = req.cookies
+  const cookie = req.cookies;
 
   const templateVars = {
     apiKey: process.env.API_KEY,
     user: null
-  }
+  };
 
   if (cookie['user']) {
 
-    queryString = `SELECT * FROM users WHERE cookie_uuid = $1`
+    queryString = `SELECT * FROM users WHERE cookie_uuid = $1`;
     queryValues = [req.cookies.user];
 
     db.query(queryString, queryValues)
       .then((results) => {
-        const user = results.rows[0]
+        const user = results.rows[0];
 
-        if (!user) res.clearCookie('user');
+        if (!user) res.clearCookie('user'); //this is the bug for missing login cookie.  We're placing it, but then on redirect we clear it because there's something wrong with the query.
 
         templateVars.user = user;
         return res.render('index', templateVars);
-      })
+      });
   } else {
     return res.render('index', templateVars);
   }

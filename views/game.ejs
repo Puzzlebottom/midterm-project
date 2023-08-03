@@ -30,17 +30,25 @@
 <body>
   <%- include('partials/_header', user) %>
     <main>
-      <div id="map-options" data-map-options="<%= JSON.stringify(map) %>"></div>
-      <div id="map">
+      <div class="card" id="map-frame">
+        <div class="card-header">
+          <h2>Hide and Seek</h2>
+        </div>
+        <div class="card-body">
+          <div id="map-options" data-map-options="<%= JSON.stringify(map) %>"></div>
+          <div id="map"></div>
+        </div>
+      </div>
+      <div class="card" id="players-container"></div>
+      <div>
         <div>
-          <div>
-            <%= JSON.stringify(host)%>
-          </div>
-          <div>
-            <%= JSON.stringify(game)%>
-          </div>
+          <%= JSON.stringify(host)%>
+        </div>
+        <div>
+          <%= JSON.stringify(game)%>
+        </div>
     </main>
-    <%- include('partials/_player-modal') %>
+    <%- include('partials/_player-modal', {user, game}) %>
 </body>
 
 </html>
