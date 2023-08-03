@@ -1,0 +1,19 @@
+<div class="modal fade" id="clue-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h1>Get ready to hide!</h1>
+        <form method="POST" action="/players">
+          <label class="form-group" for="clue">Enter a clue about your hiding place!</label>
+          <input class="form-input" type="text" id="clue" name="clue" placeholder="Clue">
+          <input type="hidden" name="player_id" value="<%= player.id %>">
+          <input type="hidden" name="game_id" value="<%= game.id %>">
+          <input type="hidden" name="location" value="">
+          <input type="hidden" name="image_url" value="">
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Ready or not...</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
