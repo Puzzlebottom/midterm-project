@@ -1,6 +1,5 @@
 const generateGame = async () => {
   const { Map } = await google.maps.importLibrary("maps");
-  const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
   const mapObject = JSON.parse($('#map-options').attr('data-map-options'));
   const player = JSON.parse($('#player-info').attr('data-player-info'));
@@ -20,23 +19,23 @@ const generateGame = async () => {
     }
   });
 
-
   return map;
 };
 
+const createMarker = async (id, position, player_id, staticImageURL, clue) => {
+  const {InfoWindow} = await google.maps.importLibrary("maps")
 
-
-const createMarker = (id, position, player_id, staticImageURL, clue) => {
-  const $image = $(`<img src="${staticImageURL}" alt="Shh, I'm hiding here!">`)
-  const $content = $('<div>')
-    .append($image)
-
-  const marker = new google.maps.AdvancedMarkerElement({
+  const marker = new google.maps.Marker({
     position: position,
     title: clue
   });
 
-  marker.content($content)
+  const infoWindow = new google.maps.InfoWindow();
+
+  infoWindow.setContent(`<img src="${staticImageURL}" alt="a hiding spot"><div>${clue}</div>`);
+  infoWindow.open(map,marker)
+
+  return marker;
 };
 
 const saveMarker = (position, player, clue) => {
