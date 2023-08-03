@@ -12,7 +12,6 @@ const morgan = require('morgan');
 const db = require('../db/connection.js');
 const PORT = 8080;
 const app = express();
-const { checkPlayerCookie, checkUserCookie, givePlayerCookie, giveUserCookie, getPlayerNameByCookie, getUserIdByCookie } = require('./cookies/cookie');
 
 app.set('view engine', 'ejs');
 

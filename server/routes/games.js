@@ -2,29 +2,30 @@ const express = require('express');
 const router = express.Router();
 const { getUserByUUID } = require('../../db/queries/users');
 const { addMap } = require('../../db/queries/maps');
-const { addGame } = require('../../db/queries/games');
+const { getPlayerByUUID } = require('../../db/queries/players');
+const { givePlayerCookie } = require('../helpers/authorizePlayer');
 const { generateRandomString } = require('../helpers/gameHelpers');
-const { getAllActiveGames, getGameById } = require('../../db/queries/games');
+const { addGame, getAllActiveGames, getGameById } = require('../../db/queries/games');
 
 
 //get all available games
 router.get('/', (req, res) => {
 
-  const uuid = req.cookies['user']
+  const uuid = req.cookies['user'];
   let templateVars = { apiKey: process.env.API_KEY };
 
   getUserByUUID(uuid)
     .then((user) => {
       templateVars.user = user;
 
-      return getAllActiveGames()
+      return getAllActiveGames();
     })
     .then((games) => {
       templateVars.games = games;
 
-      return res.render('join-game', templateVars)
+      return res.render('join-game', templateVars);
     })
-    .catch((err) => console.log(err))
+    .catch((err) => console.log(err));
 });
 
 
@@ -39,80 +40,96 @@ router.get('/new', (req, res) => {
 
   let templateVars = { apiKey: process.env.API_KEY, map: mapOptions };
 
-  const uuid = req.cookies['user']
+  const uuid = req.cookies['user'];
 
   getUserByUUID(uuid)
     .then((user) => {
       if (!user) {
-        return res.redirect('/login')
+        return res.redirect('/login');
       }
-      templateVars.user = user
+      templateVars.user = user;
 
-      return res.render('new-game', templateVars)
+      return res.render('new-game', templateVars);
     })
-    .catch((err) => console.log(err))
+    .catch((err) => console.log(err));
 });
 
 
 //create new game
 router.post('/new', (req, res) => {
   const { center, zoom, restriction } = req.body;
-  const mapData = { center, zoom, restriction }
+  const mapData = { center, zoom, restriction };
   const uuid = req.cookies['user'];
   let user;
 
   getUserByUUID(uuid)
     .then((validUser) => {
       if (!validUser) {
-        return res.redirect('/login')
+        return res.redirect('/login');
       }
       user = validUser;
-      return addMap(mapData)
+      return addMap(mapData);
     })
     .then((map) => {
-      const gameData = { mapId: map.id, ownerId: user.id, linkURL: generateRandomString(6) }
-      return addGame(gameData)
+      const gameData = { mapId: map.id, ownerId: user.id, linkURL: generateRandomString(6) };
+      return addGame(gameData);
     })
     .then((game) => {
-      return res.redirect(`/games/${game.id}`)
+      return res.redirect(`/games/${game.id}`);
     })
-    .catch((err) => console.log(err))
-})
+    .catch((err) => console.log(err));
+});
 
 router.get('/:game_id', (req, res) => {
 
-  const uuid = req.cookies['user'];
-  const gameId = req.params.game_id;
-  let templateVars = { apiKey: process.env.API_KEY };
+  const userCookie = req.cookies['user'];
+  const playerCookie = req.cookies['player'];
+  const gameId = Number(req.params.game_id);
+  let templateVars = { apiKey: process.env.API_KEY, player: null };
 
-  if (uuid) {
-    getUserByUUID(uuid)
-      .then((user) => {
-        templateVars.user = user
+  getUserByUUID(userCookie)
+    .then((user) => {
+      templateVars.user = user;
 
-        return getGameById(gameId)
-      })
-      .then((gameData) => {
-        if (gameData) {
-          const { map_id, center, zoom, restriction, id, owner_id, owner_name, started_at, ended_at, link_url, } = gameData;
-          const map = { id: map_id, center, zoom, restriction }
-          const game = { id, started_at, ended_at, link_url }
-          const host = { id: owner_id, name: owner_name }
-
-          templateVars.map = map;
-          templateVars.game = game;
-          templateVars.host = host;
-
-          return res.render('game', templateVars)
-        }
+      return getGameById(gameId);
+    })
+    .then((gameData) => {
+      if (!gameData) {
         return res.send('No game exists with that ID');
-      })
-      .catch((err) => console.log(err))
-  }
+      }
+      const { map_id, center, zoom, restriction, id, owner_id, owner_name, started_at, ended_at, link_url, } = gameData;
+      const map = { id: map_id, center, zoom, restriction };
+      const game = { id, started_at, ended_at, link_url };
+      const host = { id: owner_id, name: owner_name };
 
-})
+      templateVars.map = map;
+      templateVars.game = game;
+      templateVars.host = host;
 
-router.post('/:game_id/begin')
+      return getPlayerByUUID(playerCookie);
+    })
+    .then((player) => {
+      console.log(player);
+
+      if (!player) {
+        return res.render('game', templateVars);
+      }
+
+      if (player.game_id !== gameId) {
+        return res
+          .clearCookie('player')
+          .render('game', templateVars);
+      }
+
+      templateVars.player = player;
+      return res.render('game', templateVars);
+    })
+    .catch((err) => console.log(err));
+
+
+});
+
+router.post('/:game_id/begin');
 
 module.exports = router;
 

@@ -48,8 +48,9 @@
           <%= JSON.stringify(game)%>
         </div>
     </main>
-    <%- include('partials/_player-modal', {user, game}) %>
-      <%- include('partials/_clue-modal', {game}) %>
+    <% if (!player) { %>
+      <%- include('partials/_player-modal', {user, game}) %>
+        <% } %>
 </body>
 
 </html>
