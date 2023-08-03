@@ -43,11 +43,12 @@ const registerUser = (response, userData) => {
 
 const validateUser = async (uuid, userId) => {
   const data = await getUserByUUID(uuid);
-  if (data.rows.length === 0) {
+
+  if (!data) {
     return false;
-  }
-  const validId = data.rows[0].id;
-  return userId === validId;
+  };
+
+  return Number(userId) === data.id;
 };
 
 module.exports = { loginUser, registerUser, validateUser };
