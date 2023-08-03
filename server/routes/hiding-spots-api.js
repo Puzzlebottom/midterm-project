@@ -7,18 +7,24 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  const hidingSpotData = req.body.payload;
-  return addHidingSpot(hidingSpotData)
+
+  const hidingSpotData = req.body;
+  const { lat, lng } = hidingSpotData.location;
+  const picture = getStaticImageURL(lat, lng)
+  const { location, playerId, gameId, clue } = hidingSpotData;
+
+  return addHidingSpot({ location, playerId, gameId, picture, clue })
     .then((result) => {
-      console.log('result ==> ', result.rows[0]);
-      return res.json(result.rows[0]);
+      return res.json(result);
     })
-
-
 })
 
 router.get('/:id', (req, res) => {
   //get hiding spot by id
 })
+
+const getStaticImageURL = (lat, lng) => {
+  return `https://maps.googleapis.com/maps/api/streetview?size=300x300&location=${lat},${lng}&fov=80&heading=70&pitch=0&key=${process.env.API_KEY}`
+};
 
 module.exports = router;

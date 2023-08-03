@@ -109,7 +109,6 @@ router.get('/:game_id', (req, res) => {
       return getPlayerByUUID(playerCookie);
     })
     .then((player) => {
-      console.log(player);
 
       if (!player) {
         return res.render('game', templateVars);

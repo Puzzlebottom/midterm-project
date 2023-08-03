@@ -22,22 +22,21 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="/scripts/players.js"></script>
-  <script src="/scripts/hiding-spots.js"></script>
-  <script defer src="/scripts/create-map.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=initMap"></script>
+  <script defer src="/scripts/generate-game.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=generateGame"></script>
 
 </head>
 
 <body>
   <%- include('partials/_header', user) %>
     <main>
+      <div id="map"></div>
       <div class="card" id="map-frame">
         <div class="card-header">
           <h2>Hide and Seek</h2>
         </div>
         <div class="card-body">
           <div id="map-options" data-map-options="<%= JSON.stringify(map) %>"></div>
-          <div id="map"></div>
         </div>
       </div>
       <div class="card" id="players-container"></div>
