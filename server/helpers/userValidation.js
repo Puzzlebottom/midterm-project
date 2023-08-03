@@ -29,16 +29,12 @@ const loginUser = async (response, request) => {
 
 };
 
-const registerUser = (response, userData) => {
+const registerUser = async (response, userData) => {
   const cookie = getUserCookie();
   const { username, password } = userData;
-  return bcrypt.hash(password, 10)
-    .then((hashedPassword) => {
-      return addUser({ name: username, password: hashedPassword, cookie_uuid: cookie });
-    })
-    .then((user) => {
-      return assignUserCookie(user.cookie_uuid, response);
-    });
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const user = await addUser({ name: username, password: hashedPassword, cookie_uuid: cookie });
+  return assignUserCookie(user.cookie_uuid, response);
 };
 
 const validateUser = async (uuid, userId) => {
