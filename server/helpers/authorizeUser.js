@@ -1,21 +1,5 @@
-// splash page: logged in: header shows username and logout button
-//      can create, join, favourites -> give user_id in template vars to _header,
-
-//                          logged in                           not
-// community maps         validate user with cookie       look but no touch
-
-// user favourites        validate and show               do nothing
-
-// login --> no validation needed
-
-// register --> no validation needed
-
-// join game
-
-// create game
-
 const db = require('../../db/connection')
-const {giveUserCookie} = require('../cookies/cookie')
+const { giveUserCookie } = require('../cookies/cookie')
 const bcrypt = require('bcrypt')
 const { v4: uuidv4 } = require('uuid');
 
@@ -51,9 +35,9 @@ const registerUser = (response, name, password) => {
           return assignUserCookie(user.cookie_uuid, response)
         })
         .catch((err) => console.log(err))
-      })
-      .catch((err) => console.log(err))
+    })
+    .catch((err) => console.log(err))
 }
 
 
-module.exports = {registerUser, getUserByCookie}
+module.exports = { registerUser, getUserByCookie }

@@ -46,11 +46,9 @@ app.get('/setcookies', function (req, res) {
 const loginRoutes = require('./routes/authorization/login');
 const registerRoutes = require('./routes/authorization/register');
 const logoutRoutes = require('./routes/authorization/logout');
-const mapRoutes = require('./routes/api/maps-api/map');
 const playerRoutes = require('./routes/players/players');
 
-// const newGameRoutes = require('./routes/games/new');
-// const joinGameRoutes = require('./routes/games/join');
+
 const gameRoutes = require('./routes/games');
 const userRoutes = require('./routes/users');
 
@@ -63,7 +61,6 @@ const userRoutes = require('./routes/users');
 app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
 app.use('/logout', logoutRoutes);
-app.use('/map', mapRoutes);
 app.use('/players', playerRoutes);
 
 app.use('/games', gameRoutes);
@@ -94,24 +91,6 @@ app.get('/', (req, res) => {
   } else {
     return res.render('index', templateVars);
   }
-});
-
-app.post('/saveMarker', (req, res) => {
-  const location = JSON.stringify(req.body);
-
-  const queryString = `
-  INSERT INTO hiding_spots (location)
-  VALUES ($1)
-  RETURNING *;
-  `;
-
-  const queryValues = [location]; // Save the coordinates as a single string: "(lat, lng)"
-
-  return db.query(queryString, queryValues)
-    .then((result) => res.send(result.rows[0]))
-    .catch((error) => {
-      res.status(500).json({ error: "Error saving marker in the database." });
-    });
 });
 
 app.listen(PORT, () => {

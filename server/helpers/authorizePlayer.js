@@ -1,27 +1,17 @@
-// see if they have a req.cookies.player
+const { v4: uuidv4 } = require('uuid');
+const { getPlayerByUUID } = require('../../db/queries/players')
 
-// get player name with playerCookie
+const getPlayerCookie = () => uuidv4()
 
-// get gameId for player
+const validatePlayer = async (uuid) => {
+  const player = await getPlayerByUUID(uuid)
+  return player ? true : false;
+}
 
-// clear player cookie
+const givePlayerCookie = (response, uuid) => {
+  const cookieParams = { maxAge: 24 * 60 * 60 * 1000, httpOnly: true }; //24 hours
+  return response.cookie('player', uuid, cookieParams);
+};
 
-// check if playerCookie belongs to user (if logged in as user) else clear playerCookie
+module.exports = { getPlayerCookie, givePlayerCookie, validatePlayer }
 
-
-// NO PLAYER COOKIE, NOT LOGGED IN
-// NO favourites (no GET, no POST)
-// NO create game (no GET, no POST)
-// LOOK BUT DON'T TOUCH community favourites (yes GET, no POST)
-// on JOIN GAME (POST) create player assign playerCookie
-
-// HAVE PLAYER COOKIE NOT LOGGED IN
-// NO favourites (no GET, no POST)
-// NO create game (no GET, no POST)
-// LOOK BUT DON'T TOUCH community favourites (yes GET, no POST)
-// on JOIN GAME (POST) getGameIdForPlayer() if active redirect to gameID
-
-
-// ARE LOGGED IN BUT NO PLAYER COOKIE
-// go everwhere
-// on CREATE GAME or JOIN GAME (POSTS) create player assign playerCookie

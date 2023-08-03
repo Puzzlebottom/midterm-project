@@ -11,20 +11,20 @@ const { getAllActiveGames, getGameById } = require('../../db/queries/games');
 router.get('/', (req, res) => {
 
   const uuid = req.cookies['user']
-  let templateVars =  { apiKey: process.env.API_KEY};
+  let templateVars = { apiKey: process.env.API_KEY };
 
   getUserByUUID(uuid)
-  .then((user) => {
-    templateVars.user = user;
+    .then((user) => {
+      templateVars.user = user;
 
-    return getAllActiveGames()
-  })
-  .then((games) => {
-    templateVars.games = games;
+      return getAllActiveGames()
+    })
+    .then((games) => {
+      templateVars.games = games;
 
-    return res.render('join-game', templateVars)
-  })
-  .catch((err) => console.log(err))
+      return res.render('join-game', templateVars)
+    })
+    .catch((err) => console.log(err))
 });
 
 
@@ -37,7 +37,7 @@ router.get('/new', (req, res) => {
     restriction: { latLngBounds: { north: 85, south: -85, east: -168, west: -167.999999 }, strictBounds: true },
   };
 
-  let templateVars =  { apiKey: process.env.API_KEY, map: mapOptions };
+  let templateVars = { apiKey: process.env.API_KEY, map: mapOptions };
 
   const uuid = req.cookies['user']
 
@@ -57,7 +57,7 @@ router.get('/new', (req, res) => {
 //create new game
 router.post('/new', (req, res) => {
   const { center, zoom, restriction } = req.body;
-  const mapData = {center, zoom, restriction}
+  const mapData = { center, zoom, restriction }
   const uuid = req.cookies['user'];
   let user;
 
@@ -70,7 +70,7 @@ router.post('/new', (req, res) => {
       return addMap(mapData)
     })
     .then((map) => {
-      const gameData = {mapId: map.id, ownerId: user.id, linkURL: generateRandomString(6)}
+      const gameData = { mapId: map.id, ownerId: user.id, linkURL: generateRandomString(6) }
       return addGame(gameData)
     })
     .then((game) => {
@@ -83,7 +83,7 @@ router.get('/:game_id', (req, res) => {
 
   const uuid = req.cookies['user'];
   const gameId = req.params.game_id;
-  let templateVars =  { apiKey: process.env.API_KEY };
+  let templateVars = { apiKey: process.env.API_KEY };
 
   if (uuid) {
     getUserByUUID(uuid)
@@ -94,10 +94,10 @@ router.get('/:game_id', (req, res) => {
       })
       .then((gameData) => {
         if (gameData) {
-          const {map_id, center, zoom, restriction, id, owner_id, owner_name, started_at, ended_at, link_url, } = gameData;
-          const map = {id: map_id, center, zoom, restriction}
-          const game = {id, started_at, ended_at, link_url}
-          const host = {id: owner_id, name: owner_name}
+          const { map_id, center, zoom, restriction, id, owner_id, owner_name, started_at, ended_at, link_url, } = gameData;
+          const map = { id: map_id, center, zoom, restriction }
+          const game = { id, started_at, ended_at, link_url }
+          const host = { id: owner_id, name: owner_name }
 
           templateVars.map = map;
           templateVars.game = game;
