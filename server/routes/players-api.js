@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
-const db = require('../../../db/connection');
+const db = require('../../db/connection');
 
 router.get('/', (req, res) => {
   res.render('player');

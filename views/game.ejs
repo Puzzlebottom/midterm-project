@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="/styles/layout.css" />
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="/scripts/players.js"></script>
   <script defer src="/scripts/create-map.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=initMap"></script>
 
@@ -27,10 +28,16 @@
   <%- include('partials/_header', user) %>
     <main>
       <div id="map-options" data-map-options="<%= JSON.stringify(map) %>"></div>
-      <div id="map"><div>
-      <div><%= JSON.stringify(host)%></div>
-      <div><%= JSON.stringify(game)%></div>
+      <div id="map">
+        <div>
+          <div>
+            <%= JSON.stringify(host)%>
+          </div>
+          <div>
+            <%= JSON.stringify(game)%>
+          </div>
     </main>
+    <%- include('partials/_player-modal') %>
 </body>
 
 </html>

@@ -46,7 +46,7 @@ app.get('/setcookies', function (req, res) {
 const loginRoutes = require('./routes/authorization/login');
 const registerRoutes = require('./routes/authorization/register');
 const logoutRoutes = require('./routes/authorization/logout');
-const playerRoutes = require('./routes/players/players');
+const playerRoutes = require('./routes/players-api');
 
 
 const gameRoutes = require('./routes/games');
