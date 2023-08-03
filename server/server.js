@@ -72,7 +72,7 @@ app.get('/', async (req, res) => {
   const templateVars = { apiKey: process.env.API_KEY, user: null };
 
   if (cookie['user']) {
-    const user = getUserByUUID(cookie['user']);
+    const user = await getUserByUUID(cookie['user']);
 
     templateVars.user = user;
   }
