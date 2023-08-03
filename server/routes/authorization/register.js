@@ -1,25 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../../../db/connection');
-const {checkUserCookie} = require('../../cookies/cookie')
-const bcrypt = require('bcrypt');
-const {registerUser} = require('../../helpers/authorizeUser')
+const { registerUser } = require('../../helpers/userValidation');
 
 router.get('/', (req, res) => {
-  const cookie = req.cookies
+  const cookie = req.cookies;
 
   if (cookie['user']) {
-    return res.redirect('/')
+    return res.redirect('/');
   }
 
-  return res.render('register', {user: null});
+  return res.render('register', { user: null });
 });
 
 
 router.post('/', (req, res) => {
   const { username, password } = req.body;
 
- registerUser(res, username, password)
+  return registerUser(res, { username, password })
     .then((response) => {
       return response.redirect('/');
     })

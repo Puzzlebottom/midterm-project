@@ -51,6 +51,7 @@ const playerRoutes = require('./routes/players-api');
 
 const gameRoutes = require('./routes/games');
 const userRoutes = require('./routes/users');
+const { getUserByUUID } = require('../db/queries/users');
 
 
 // Mount all resource routes
@@ -66,31 +67,17 @@ app.use('/players', playerRoutes);
 app.use('/games', gameRoutes);
 app.use('/users', userRoutes);
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   const cookie = req.cookies;
 
-  const templateVars = {
-    apiKey: process.env.API_KEY,
-    user: null
-  };
+  const templateVars = { apiKey: process.env.API_KEY, user: null };
 
   if (cookie['user']) {
+    const user = getUserByUUID(cookie['user']);
 
-    queryString = `SELECT * FROM users WHERE cookie_uuid = $1`;
-    queryValues = [req.cookies.user];
-
-    db.query(queryString, queryValues)
-      .then((results) => {
-        const user = results.rows[0];
-
-        if (!user) res.clearCookie('user'); //this is the bug for missing login cookie.  We're placing it, but then on redirect we clear it because there's something wrong with the query.
-
-        templateVars.user = user;
-        return res.render('index', templateVars);
-      });
-  } else {
-    return res.render('index', templateVars);
+    templateVars.user = user;
   }
+  return res.render('index', templateVars);
 });
 
 app.listen(PORT, () => {

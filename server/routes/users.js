@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const { getUserByUUID } = require('../../db/queries/users');
-const { validateUser } = require('../helpers/validation');
+const { validateUser } = require('../helpers/userValidation');
 const { addFavourite, getAllFavourites, getFavouritesByUserId } = require('../../db/queries/favourites');
 
 router.get('/favourites', (req, res) => {
   let templateVars = { apiKey: process.env.API_KEY };
-  const uuid = req.cookies['user']
+  const uuid = req.cookies['user'];
 
   getAllFavourites()
     .then((favourites) => {
@@ -18,7 +18,7 @@ router.get('/favourites', (req, res) => {
       return res.render('favourites', templateVars);
     })
     .catch((err) => console.log(err));
-})
+});
 
 
 router.get('/:user_id/favourites', (req, res) => {
@@ -63,4 +63,4 @@ router.post('/:user_id/favourites', (req, res) => {
     .catch((err) => console.log(err));
 });
 
-module.exports = router
+module.exports = router;
