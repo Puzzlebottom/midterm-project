@@ -41,3 +41,16 @@ body {
 
   }
 }
+
+i {
+  font-size: 3.5em;
+  color: grey;
+}
+
+i.favourite {
+  color: red;
+}
+
+i:hover {
+  color: pink;
+}

@@ -6,17 +6,28 @@ const { getPlayerByUUID } = require('../../db/queries/players');
 const { givePlayerCookie } = require('../helpers/authorizePlayer');
 const { generateRandomString } = require('../helpers/gameHelpers');
 const { addGame, getAllActiveGames, getGameById } = require('../../db/queries/games');
+const { getFavouritesByUserId } = require('../../db/queries/favourites');
 
 
 //get all available games
 router.get('/', (req, res) => {
 
   const uuid = req.cookies['user'];
-  let templateVars = { apiKey: process.env.API_KEY };
-
+  let templateVars = { apiKey: process.env.API_KEY, user: null };
   getUserByUUID(uuid)
     .then((user) => {
       templateVars.user = user;
+
+      if (!user) return null;
+
+      return getFavouritesByUserId(user.id);
+    })
+    .then((favourites) => {
+      const favouriteMapIds = [];
+      for (const favourite of favourites) {
+        favouriteMapIds.push(favourite.id);
+      }
+      templateVars.favouriteMapIds = favouriteMapIds;
 
       return getAllActiveGames();
     })

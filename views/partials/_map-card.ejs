@@ -1,9 +1,19 @@
 <div class="map-card card">
   <img
-    src="https://maps.googleapis.com/maps/api/staticmap?center=40.714728,-73.998672&zoom=12&size=400x400&key=AIzaSyCKwRADzeXtlN-GQXMFnBfF3tI19_0iT7I"
+    src="https://maps.googleapis.com/maps/api/staticmap?center=<%= JSON.stringify(map.center.lat) %>,<%= JSON.stringify(map.center.lng) %>&zoom=<%= JSON.stringify(map.zoom) %>&size=400x400&key=<%= apiKey %>"
     alt="a map">
-  <form class="form text-center">
-    <input type="hidden" name="map_id" value="<%= map.id %>">
-    <button class="btn btn-primary" type="submit">PLAY</button>
-  </form>
+  <div>
+    <% if (user) { %>
+      <% if (favouriteMapIds.includes(map.id)) { %>
+        <i class="fa-solid fa-heart favourite" data-map-id="<%= map.id%>" data-user-id="<%= user.id %>"></i>
+        <% } else { %>
+          <i class="fa-solid fa-heart" data-map-id="<%= map.id %>" data-user-id="<%= user.id %>"></i>
+          <% } %>
+            <% } %>
+  </div>
+  <div>
+    <h3>
+      <%= map.owner_name %>
+    </h3>
+  </div>
 </div>

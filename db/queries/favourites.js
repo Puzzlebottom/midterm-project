@@ -1,18 +1,29 @@
 const db = require('../connection');
 
 const getAllFavourites = async () => {
-  const query = 'SELECT * FROM maps JOIN favourites ON favourites.map_id = maps.id;';
+  const query = `
+  SELECT maps.*, users.name AS owner_name
+  FROM maps
+  JOIN games ON games.map_id = maps.id
+  JOIN users ON users.id = games.owner_id;`;
 
   const data = await db.query(query);
   return data.rows;
 };
 
 const getFavouritesByUserId = async (userId) => {
+  if (!userId) {
+    return [];
+  }
+
   const query = `
-  SELECT map_id FROM favourites
-  JOIN maps ON map_id = maps.id
-  JOIN users ON user_id = users.id
-  WHERE users.id = $1;
+  SELECT maps.*, owners.name AS owner_name
+  FROM maps
+  JOIN games ON games.map_id = maps.id
+  JOIN users AS owners ON owners.id = games.owner_id
+  JOIN favourites ON favourites.map_id = maps.id
+  JOIN users AS favouriters ON user_id = favouriters.id
+  WHERE favouriters.id = $1;
   `;
   const values = [userId];
 
@@ -25,7 +36,18 @@ const addFavourite = async (userId, mapId) => {
   const values = [userId, mapId];
 
   const data = await db.query(query, values);
-  return data.rows;
+  if (data.rows.length === 0) {
+    return null;
+  }
+  return data.rows[0];
 };
 
-module.exports = { addFavourite, getAllFavourites, getFavouritesByUserId };
+const removeFavourite = async (userId, mapId) => {
+  const query = `DELETE FROM favourites WHERE user_id = $1 AND map_id = $2;`;
+  const values = [userId, mapId];
+
+  await db.query(query, values);
+  return true;
+};
+
+module.exports = { addFavourite, getAllFavourites, getFavouritesByUserId, removeFavourite };

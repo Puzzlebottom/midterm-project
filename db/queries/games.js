@@ -1,14 +1,14 @@
 const db = require('../connection');
 
 const addGame = async (gameData) => {
-  const {mapId, ownerId, linkURL} = gameData;
+  const { mapId, ownerId, linkURL } = gameData;
 
-  const query = 'INSERT INTO games (map_id, owner_id, link_url) VALUES ($1, $2, $3) RETURNING *;'
-  const values = [mapId, ownerId, linkURL]
+  const query = 'INSERT INTO games (map_id, owner_id, link_url) VALUES ($1, $2, $3) RETURNING *;';
+  const values = [mapId, ownerId, linkURL];
 
   const data = await db.query(query, values);
   return data.rows[0];
-}
+};
 
 const getAllActiveGames = async () => {
   const query = `
@@ -18,11 +18,11 @@ const getAllActiveGames = async () => {
   JOIN maps ON maps.id = games.map_id
   WHERE games.started_at IS NULL
   GROUP BY games.id, users.name, maps.id
-  ORDER BY games.id;`
+  ORDER BY games.id;`;
 
   const data = await db.query(query);
   return data.rows;
-}
+};
 
 const getGameById = async (gameId) => {
   const query = `
@@ -40,6 +40,22 @@ const getGameById = async (gameId) => {
   }
 
   return data.rows[0];
-}
+};
 
-module.exports = { addGame, getAllActiveGames, getGameById }
+const getGameOwnerByMapId = async (mapId) => {
+  const query = `
+  SELECT user.name FROM users
+  JOIN games ON games.owner_id = users.id
+  JOIN maps ON maps.id = games.map_id
+  WHERE maps.id = $1;`;
+  const values = [mapId];
+
+  const data = await db.query(query, values);
+  if (data.rows.length === 0) {
+    return null;
+  }
+  console.log("DATA.ROWS[0] ===> ", data.rows[0]);
+  return data.rows[0];
+};
+
+module.exports = { addGame, getAllActiveGames, getGameById, getGameOwnerByMapId };

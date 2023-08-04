@@ -3,7 +3,7 @@ const generateGame = async () => {
 
   const mapObject = JSON.parse($('#map-options').attr('data-map-options'));
   const player = JSON.parse($('#player-info').attr('data-player-info'));
-  const mapOptions = { center: mapObject.center, zoom: mapObject.zoom, restriction: mapObject.restriction }
+  const mapOptions = { center: mapObject.center, zoom: mapObject.zoom, restriction: mapObject.restriction };
 
 
   const map = new Map(document.getElementById("map"), mapOptions);
@@ -23,7 +23,7 @@ const generateGame = async () => {
 };
 
 const createMarker = async (id, position, player_id, staticImageURL, clue) => {
-  const {InfoWindow} = await google.maps.importLibrary("maps")
+  const { InfoWindow } = await google.maps.importLibrary("maps");
 
   const marker = new google.maps.Marker({
     position: position,
@@ -33,7 +33,7 @@ const createMarker = async (id, position, player_id, staticImageURL, clue) => {
   const infoWindow = new google.maps.InfoWindow();
 
   infoWindow.setContent(`<img src="${staticImageURL}" alt="a hiding spot"><div>${clue}</div>`);
-  infoWindow.open(map,marker)
+  infoWindow.open(map, marker);
 
   return marker;
 };
