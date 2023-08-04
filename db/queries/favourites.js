@@ -4,8 +4,10 @@ const getAllFavourites = async () => {
   const query = `
   SELECT maps.*, users.name AS owner_name
   FROM maps
+  JOIN favourites ON favourites.map_id = maps.id
   JOIN games ON games.map_id = maps.id
-  JOIN users ON users.id = games.owner_id;`;
+  JOIN users ON users.id = games.owner_id
+  GROUP BY favourites.map_id, maps.id, owner_name;`;
 
   const data = await db.query(query);
   return data.rows;
