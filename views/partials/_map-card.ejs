@@ -1,8 +1,10 @@
 <div class="map-card card">
-  <img
-    src="https://maps.googleapis.com/maps/api/staticmap?center=<%= JSON.stringify(map.center.lat) %>,<%= JSON.stringify(map.center.lng) %>&zoom=<%= JSON.stringify(map.zoom) %>&size=400x400&key=<%= apiKey %>"
-    alt="a map">
-  <div>
+  <div id="map-image">
+    <img
+      src="https://maps.googleapis.com/maps/api/staticmap?center=<%= JSON.stringify(map.center.lat) %>,<%= JSON.stringify(map.center.lng) %>&zoom=<%= JSON.stringify(map.zoom) %>&size=400x400&key=<%= apiKey %>"
+      alt="a map">
+  </div>
+  <div id="controls">
     <% if (user) { %>
       <% if (favouriteMapIds.includes(map.id)) { %>
         <i class="fa-solid fa-heart favourite" data-map-id="<%= map.id%>" data-user-id="<%= user.id %>"></i>
@@ -12,8 +14,8 @@
             <% } %>
   </div>
   <div>
-    <h3>
+    <span>
       <%= map.owner_name %>
-    </h3>
+    </span>
   </div>
 </div>

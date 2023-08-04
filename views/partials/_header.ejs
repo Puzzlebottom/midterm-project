@@ -12,40 +12,33 @@
           <a class="nav-link" href="/users/favourites">Maps</a>
         </li>
 
-    <% if (user) { %>
-      <li class="nav-item">
-        <a class="nav-link" href="/users/<%= user.id %>/favourites">Favourites</a>
-      </li>
-      <% } %>
+        <% if (user) { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/users/<%= user.id %>/favourites">Favourites</a>
+          </li>
+          <% } %>
 
-    </ul>
-  </div>
+      </ul>
+    </div>
 
 
 
-  <div>
-    <% if (!user) { %>
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="/login">Login</a>
+    <div>
+      <% if (!user) { %>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/register">Register</a>
           </li>
         </ul>
         <% } else { %>
-          Logged in as: <%= user.name %>!
           <form action="/logout" method="POST">
-            <button class="btn btn-primary" type="submit">Logout</button>
+            <span class="navbar-text">Logged in as: <%= user.name %></span>
+            <button class="btn btn-primary" id="logout-button" type="submit">Logout</button>
           </form>
           <% } %>
-        </div>
+    </div>
   </nav>
-  </header>
-
-
-
-
-
-
-
+</header>

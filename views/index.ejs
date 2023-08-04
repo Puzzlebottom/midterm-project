@@ -3,13 +3,13 @@
 
 <head>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
 
-  <title>Home Page</title>
+  <title>Hide and Seek</title>
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="/vendor/border-box.css" />
   <link rel="stylesheet" href="/styles/main.css" />
   <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/index.css" />
+  <link rel="stylesheet" href="/styles/header.css" />
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=initMap"></script>
@@ -26,6 +28,9 @@
 </head>
 
 <body>
+  <img
+    src="https://maps.googleapis.com/maps/api/staticmap?center=48.765812262773615,11.358355018307819&zoom=2&size=640x360&scale=2&key=<%= apiKey %>"
+    alt="map of the world">
   <%- include('partials/_header', user) %>
     <main>
       <div class="card">
@@ -33,8 +38,8 @@
         <div class="card-header text-center">
           <h2>Hide and Seek App</h2>
         </div>
-        <div class="card-body">something goes here!</div>
-        <div class="card-footer row">
+        <div class="card-body text-center">Have fun playing hide and seek across the globe!</div>
+        <div class="card-footer">
           <div class="col">
             <form method="GET" action="/games/new">
               <button type="submit" class="btn btn-primary" value="new-game">START GAME</button>
